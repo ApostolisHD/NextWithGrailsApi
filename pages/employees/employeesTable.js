@@ -1,11 +1,12 @@
-import Head from 'next/head'
+import Link from 'next/link'
 import {useState, useEffect} from 'react';
 import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
+import DepartmentTable from '../departments/departmentsTable'
 import {Divider, Layout, Menu, Table} from 'antd';
-import {NotificationOutlined , UserOutlined, LaptopOutlined } from '@ant-design/icons';
+import {UserOutlined, LaptopOutlined } from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const { SubMenu } = Menu;
@@ -22,7 +23,7 @@ export async function getServerSideProps() {
 }
 
 export default function employeeTable(data) {
-
+    const router = useRouter();
   return (
     <Layout>
       <Layout>
@@ -45,27 +46,16 @@ export default function employeeTable(data) {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
           <SubMenu key="sub1" icon={<UserOutlined />} title="Εργαζομενοι">
-            <Menu.Item key="1">Δημιουργια</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
+          <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
+            <Menu.Item key="2" onClick={() => router.replace("")}>Δημιουργια</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-            <Menu.Item key="9">option9</Menu.Item>
-            <Menu.Item key="10">option10</Menu.Item>
-            <Menu.Item key="11">option11</Menu.Item>
-            <Menu.Item key="12">option12</Menu.Item>
+          <SubMenu key="sub2" icon={<LaptopOutlined />} title="Τμηματα">
+          <Menu.Item key="5" onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
+            <Menu.Item key="6">Δημιουργια</Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
