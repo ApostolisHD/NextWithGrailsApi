@@ -17,7 +17,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-
+.login-form {
+  max-width: 50%;
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
 .text-left {
   text-align: left !important;
 }
