@@ -49,14 +49,16 @@ export default function employeeTable(data) {
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
-          <SubMenu key="sub1" icon={<UserOutlined />} title="Εργαζομενοι">
-          <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
-            <Menu.Item key="2" onClick={() => router.replace("")}>Δημιουργια</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub2" icon={<LaptopOutlined />} title="Τμηματα">
-          <Menu.Item key="5" onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
-            <Menu.Item key="6">Δημιουργια</Menu.Item>
-          </SubMenu>
+          <SubMenu key="sub1" icon={< UserOutlined />} title="Εργαζομενοι">
+              <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
+              <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
+            </SubMenu>
+            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+              <Menu.Item
+                key="5"
+                onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
+              <Menu.Item key="6" onClick={() => router.replace("/departments/createDepartment")}>Δημιουργια</Menu.Item>
+            </SubMenu>
         </Menu>
       </Sider>
         <Content style={{
