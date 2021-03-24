@@ -6,8 +6,6 @@ import {useRouter} from 'next/router'
 import LoginForm from '../components/loginForm'
 import {
   Layout,
-  Menu,
-  Breadcrumb,
   Divider,
   Row,
   Col
@@ -15,16 +13,6 @@ import {
 import {Space, Card} from 'antd';
 const {Header, Content, Footer} = Layout;
 
-// export async function getServerSideProps() {
-//   let data;
-//   data = await
-//   axios.get(`http://localhost:8080/authentication`);
-//   return {
-//     props: {
-//       data: data.data
-//     }
-//   }
-// }
 export default function login() {
   return (
     <Layout className="layout">

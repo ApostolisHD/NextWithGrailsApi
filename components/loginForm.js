@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Button,
+  notification
 } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -18,15 +19,34 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 export default function login() {
   const router = useRouter();
 
-  async function handleLogin () {
-    const vertification = await axios.get(`http://localhost:8080/authentication`) 
+  async function handleLogin (values) {
+    const vertification = await axios.get(`http://localhost:8080/authentication`, {params:{user_name:values.user_name, user_password:values.user_password}}) 
     console.log(vertification)
-    if (vertification.status==200) {
+    if (vertification.data.status==200) {
       router.push('/employees/employeesTable')
-    }else if(vertification.status==500) {
-      //message user not found
+    }else if(vertification.data.status==500) {
+      openNotification()
     }  
   }
+
+  const close = () => {};
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => {notification.close(key);}}>
+        Κατάλαβα
+      </Button>
+    );
+    notification.open({
+      message: 'Λάθος στοιχεία',
+      description:
+        'Εισάγατε λάθος στοιχεία, παρακαλώ δοκιμάστε ξανά',
+      btn,
+      key,
+      onClose: close,
+    });
+    }  
+  
 
   return (
     <Row justify="space-between">
