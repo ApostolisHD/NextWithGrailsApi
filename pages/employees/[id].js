@@ -159,7 +159,6 @@ export default function employeeEdit(data) {
                           message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                         }
                       ]}>
-                        {/* <input type="date"></input> */}
                         <ConfigProvider locale={locale}>
                           <DatePicker defaultValue={moment(data.data.date_of_birth,'DD/MM/YYYY')} format='DD/MM/YYYY' onChange={e => setdateofBirthReg(e.format('DD/MM/YYYY'))}/>
                         </ConfigProvider>

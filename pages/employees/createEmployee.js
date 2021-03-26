@@ -1,8 +1,6 @@
-import Link from 'next/link'
-import {useState, useEffect} from 'react';
-import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
+import 'moment/locale/el'
 import {useRouter} from 'next/router'
 import {
   Divider,
@@ -14,11 +12,10 @@ import {
   Select,
   Row,
   DatePicker,
+  ConfigProvider,
   Col
 } from 'antd';
-import FormItem from 'antd/lib/form/FormItem'
-import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
-import {resolveOnChange} from 'antd/lib/input/Input';
+import {UserOutlined, LaptopOutlined, BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -35,7 +32,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function createDepartment(data) {
+export default function createEmployee(data) {
   const router = useRouter();
   async function onFinish(values) {
       console.log(values)
@@ -43,10 +40,10 @@ export default function createDepartment(data) {
       first_name: values.first_name,
       last_name: values.last_name,
       afm: values.afm,
-      date_of_birth: values.date_of_birth,
+      date_of_birth:values.date_of_birth,
       id_dep:values.id_dep
     })
-    if (vertification.data.status == 201) {
+    if (vertification.data.status == 200) {
       router.replace("/employees/employeesTable")
     } else if (vertification.data.status == 500) {
       console.log("oxi")
@@ -146,14 +143,14 @@ export default function createDepartment(data) {
                   </Form.Item>
                   <Row justify="center">
                     <Col>
-                      <Form.Item
+                     <Form.Item
                         name="date_of_birth"
                         rules={[{
                           required: true,
                           message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                         }
                       ]}>
-                        <DatePicker/>
+                          <DatePicker format='DD/MM/YYYY'/>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -163,10 +160,10 @@ export default function createDepartment(data) {
                         name="id_dep"
                         rules={[{
                           required: true,
-                          message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
+                          message: 'Παρακαλω εισαγετε το τμημα του εργαζομενου!'
                         }
                       ]}>
-                        <Select style={{ width: 400}}>
+                        <Select style={{ width: 400}} placeholder="Επιλεξτε το τμημα του εργαζομενου">
                         {data.data.map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
                         </Select>
                       </Form.Item>

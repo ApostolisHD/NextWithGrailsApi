@@ -4,9 +4,10 @@ import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import DepartmentTable from '../departments/departmentsTable'
+import EmployeeEdit from './[id]'
 import {Divider, Layout, Menu, Table,Space,Button,Modal} from 'antd';
 import {UserOutlined, LaptopOutlined} from '@ant-design/icons';
+import { render } from 'react-dom';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -28,7 +29,7 @@ export default function employeeTable(data) {
 
   const deleteEmployee = async(id) => {
       const res =await axios.delete(`http://localhost:8080/employee/${id}`);
-      if(res.data.status == 201)
+      if(res.data.status == 200)
         router.replace("/employees/employeesTable")
       else
         console.log(res.data.status)
@@ -104,7 +105,7 @@ export default function employeeTable(data) {
                 key="employee_id"
                 render={(record) => (
                 <Space size="middle">
-                  <Button type="primary" htmlType="submit" >Επεξεργασια</Button>
+                  <Button type="primary" htmlType="submit" onClick={() => router.push({pathname:`/employees/[id]`,query:{id:record.employee_id}})} >Επεξεργασια</Button>
                   <Button type="primary" danger onClick onClick={() => deleteEmployee(record.employee_id)}>Διαγραφη</Button>
                 </Space>
               )}/>
