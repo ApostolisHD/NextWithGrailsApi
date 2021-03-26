@@ -15,7 +15,7 @@ import {
   Col
 } from 'antd';
 import FormItem from 'antd/lib/form/FormItem'
-import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined, BankOutlined, LockOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -68,7 +68,7 @@ export default function createDepartment(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>

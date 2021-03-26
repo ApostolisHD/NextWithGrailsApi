@@ -18,9 +18,10 @@ import {
   Row,
   DatePicker,
   ConfigProvider,
+  Space,
   Col
 } from 'antd';
-import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined,BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -28,12 +29,12 @@ const {Option} = Select;
 
 export async function getServerSideProps(context) {
   let data;
-  data = await
-  axios.get(`http://localhost:8080/employee/${context.params.id}`);
-  console.log(data)
+  data = await axios.get(`http://localhost:8080/employee/${context.params.id}`);
+  let depData = await axios.get(`http://localhost:8080/department`);
   return {
     props: {
-      data: data.data
+      data: data.data,
+      depData:depData.data
     }
   }
 }
@@ -41,6 +42,7 @@ export async function getServerSideProps(context) {
 export default function employeeEdit(data) {
   const router = useRouter();
   const [dateofbirthReg,setdateofBirthReg] = useState();
+
   async function onFinish(values) {
     const vertification = await
     axios.put(`http://localhost:8080/employee/${data.data.employee_id}`, {
@@ -48,10 +50,10 @@ export default function employeeEdit(data) {
       last_name: values.last_name,
       afm: values.afm,
       date_of_birth: dateofbirthReg,
-      id_dep:43
+      id_dep:values.id_dep
     })
     console.log(vertification)
-    if (vertification.data.status == 201) {
+    if (vertification.data.status == 200) {
       router.back()
     } else if (vertification.data.status == 500) {
       console.log("oxi")
@@ -93,7 +95,7 @@ export default function employeeEdit(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
@@ -165,7 +167,7 @@ export default function employeeEdit(data) {
                       </Form.Item>
                     </Col>
                   </Row>
-                  {/* <Row justify="center">
+                  <Row justify="center">
                     <Col>
                       <Form.Item
                         name="id_dep"
@@ -175,17 +177,17 @@ export default function employeeEdit(data) {
                         }
                       ]}>
                         <Select style={{ width: 400}}>
-                        {data.data.map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
+                        {data.depData.map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
                         </Select>
                       </Form.Item>
                     </Col>
-                  </Row> */}
+                  </Row>
                   <Form.Item>
                         <Space size='large' style={{marginInlineStart:'20%'}}>
                           <Button type="primary" htmlType="submit" className="login-form-button">
                             Αποθηκευση
                           </Button>
-                          <Button type="primary" htmlType="submit" danger className="login-form-button">
+                          <Button type="primary" danger className="login-form-button"  onClick={() => router.back()}>
                             Ακυρωση
                           </Button>
                         </Space>

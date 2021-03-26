@@ -12,7 +12,6 @@ import {
   Select,
   Row,
   DatePicker,
-  ConfigProvider,
   Col
 } from 'antd';
 import {UserOutlined, LaptopOutlined, BankOutlined} from '@ant-design/icons';
@@ -84,7 +83,7 @@ export default function createEmployee(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>

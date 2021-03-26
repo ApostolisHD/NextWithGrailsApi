@@ -16,12 +16,10 @@ import {
   Button,
   Select,
   Row,
-  DatePicker,
-  ConfigProvider,
   Col,
   Space
 } from 'antd';
-import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined,BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -87,7 +85,7 @@ export default function employeeEdit(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
@@ -123,7 +121,7 @@ export default function employeeEdit(data) {
                     }
                   ]}>
                     <Input
-                      prefix={< UserOutlined className = "site-form-item-icon" />}
+                      prefix={< BankOutlined className = "site-form-item-icon" />}
                       placeholder="Ονομα Τμηματος"/>
                   </Form.Item>
                   <Form.Item>
@@ -131,7 +129,7 @@ export default function employeeEdit(data) {
                           <Button type="primary" htmlType="submit" className="login-form-button">
                             Αποθηκευση
                           </Button>
-                          <Button type="primary" danger className="login-form-button">
+                          <Button type="primary" danger className="login-form-button"  onClick={() => router.back()}>
                             Ακυρωση
                           </Button>
                         </Space>

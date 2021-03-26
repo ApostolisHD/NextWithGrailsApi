@@ -6,7 +6,7 @@ import axios from 'axios';
 import {useRouter} from 'next/router'
 import DepartmentTable from '../departments/departmentsTable'
 import {Divider, Layout, Menu, Table,Space,Button} from 'antd';
-import {UserOutlined, LaptopOutlined} from '@ant-design/icons';
+import {UserOutlined, LaptopOutlined,BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -69,7 +69,7 @@ export default function departmentTable(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>

@@ -4,10 +4,8 @@ import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import EmployeeEdit from './[id]'
 import {Divider, Layout, Menu, Table,Space,Button,Modal} from 'antd';
-import {UserOutlined, LaptopOutlined} from '@ant-design/icons';
-import { render } from 'react-dom';
+import {UserOutlined, BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
@@ -24,6 +22,7 @@ export async function getServerSideProps() {
 }
 
 export default function employeeTable(data) {
+  console.log(data)
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -70,7 +69,7 @@ export default function employeeTable(data) {
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
               <Menu.Item key="2" onClick={() => router.replace("/employees/createEmployee")}>Δημιουργια</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" icon={< LaptopOutlined />} title="Τμηματα">
+            <SubMenu key="sub2" icon={< BankOutlined />} title="Τμηματα">
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
@@ -106,7 +105,7 @@ export default function employeeTable(data) {
                 render={(record) => (
                 <Space size="middle">
                   <Button type="primary" htmlType="submit" onClick={() => router.push({pathname:`/employees/[id]`,query:{id:record.employee_id}})} >Επεξεργασια</Button>
-                  <Button type="primary" danger onClick onClick={() => deleteEmployee(record.employee_id)}>Διαγραφη</Button>
+                  <Button type="primary" danger onClick={() => deleteEmployee(record.employee_id)}>Διαγραφη</Button>
                 </Space>
               )}/>
             </Table>
