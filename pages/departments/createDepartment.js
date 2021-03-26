@@ -20,19 +20,18 @@ import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
-
 export default function createDepartment(data) {
   console.log(data.data)
   const router = useRouter();
 
   async function onFinish(values) {
     const vertification = await axios.post(`http://localhost:8080/department`, {name: values.name})
-    if (vertification.data.status==201) {
-        router.replace("/departments/departmentsTable")
-      }else if(vertification.data.status==500) {
-        console.log("oxi")
-      }
+    if (vertification.data.status == 201) {
+      router.replace("/departments/departmentsTable")
+    } else if (vertification.data.status == 500) {
+      console.log("oxi")
     }
+  }
   return (
     <Layout>
       <Layout>
@@ -52,6 +51,9 @@ export default function createDepartment(data) {
         }}
           onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
+        }}
+          style={{
+          minHeight: '100'
         }}>
           <div className="logo"/>
           <Menu
@@ -70,7 +72,9 @@ export default function createDepartment(data) {
               <Menu.Item
                 key="5"
                 onClick={() => router.replace("/departments/departmentsTable")}>Προβολη</Menu.Item>
-              <Menu.Item key="6" onClick={() => router.replace("/departments/createDepartment")}>Δημιουργια</Menu.Item>
+              <Menu.Item
+                key="6"
+                onClick={() => router.replace("/departments/createDepartment")}>Δημιουργια</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
@@ -82,7 +86,8 @@ export default function createDepartment(data) {
             className="site-layout-background"
             style={{
             padding: 24,
-            minHeight: 700
+            paddingBottom: 300,
+            minHeight: '100%'
           }}>
             <Row justify="center">
               <Col span={12} offset={6}>
@@ -116,7 +121,9 @@ export default function createDepartment(data) {
         </Content>
       </Layout>
       <Footer style={{
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingTop:0,
+        marginTop: 0
       }}>Ant Design ©2018 Created by Ant UED</Footer>
     </Layout>
   );
