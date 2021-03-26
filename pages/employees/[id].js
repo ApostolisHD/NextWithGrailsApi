@@ -59,15 +59,36 @@ export default function employeeEdit(data) {
       console.log("oxi")
     }
   }
-
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        logout
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <Layout>
       <Layout>
         <Header>
-          <div className="logo"/>
-          <h1 style={{
-            color: "white"
-          }}>Εργαζομενοι-Τμηματα</h1>
+        <div className="logo"/>
+          <Row justify='space-between'>
+            <Col span={6}>
+              <h1 style={{
+                color: "white"
+              }}>Εργαζομενοι-Τμηματα</h1>
+            </Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>
+              <Dropdown.Button
+                overlay={menu}
+                placement="bottomCenter"
+                icon={< UserOutlined />}>
+                Logout
+              </Dropdown.Button>
+            </Col>
+          </Row>
         </Header>
       </Layout>
       <Layout>
@@ -114,7 +135,7 @@ export default function employeeEdit(data) {
             style={{
             padding: 24,
             paddingBottom: 300,
-            minHeight: '100%'
+            minHeight: 700
           }}>
             <Row justify="center">
               <Col span={12} offset={6}>

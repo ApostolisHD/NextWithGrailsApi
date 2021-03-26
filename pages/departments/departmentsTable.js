@@ -24,7 +24,7 @@ export async function getServerSideProps() {
 }
 
 export default function departmentTable(data) {
-
+  const router = useRouter();
   const deleteDepartment = async(id) => {
     const res =await axios.delete(`http://localhost:8080/employee/${id}`);
     if(res.data.status == 201)
@@ -32,15 +32,36 @@ export default function departmentTable(data) {
     else
       console.log(res.data.status)
 };
-  const router = useRouter();
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        logout
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <Layout>
       <Layout>
         <Header>
-          <div className="logo"/>
-          <h1 style={{
-            color: "white"
-          }}>Εργαζομενοι-Τμηματα</h1>
+        <div className="logo"/>
+          <Row justify='space-between'>
+            <Col span={6}>
+              <h1 style={{
+                color: "white"
+              }}>Εργαζομενοι-Τμηματα</h1>
+            </Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>col-4</Col>
+            <Col span={4}>
+              <Dropdown.Button
+                overlay={menu}
+                placement="bottomCenter"
+                icon={< UserOutlined />}>
+                Logout
+              </Dropdown.Button>
+            </Col>
+          </Row>
         </Header>
       </Layout>
       <Layout>
@@ -88,7 +109,7 @@ export default function departmentTable(data) {
             style={{
             padding: 24,
             paddingBottom: 300,
-            minHeight: '100%'
+            minHeight: 700
           }}>
             <Table dataSource={data.data} rowKey={record => record.department_id}>
               <Column title="Τμημα" name="name" dataIndex="name"></Column>
