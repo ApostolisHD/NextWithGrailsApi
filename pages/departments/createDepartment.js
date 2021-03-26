@@ -26,7 +26,7 @@ export default function createDepartment(data) {
 
   async function onFinish(values) {
     const vertification = await axios.post(`http://localhost:8080/department`, {name: values.name})
-    if (vertification.data.status == 201) {
+    if (vertification.data.status == 200) {
       router.replace("/departments/departmentsTable")
     } else if (vertification.data.status == 500) {
       console.log("oxi")

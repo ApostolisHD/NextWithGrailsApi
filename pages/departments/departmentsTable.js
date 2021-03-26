@@ -26,9 +26,10 @@ export async function getServerSideProps() {
 export default function departmentTable(data) {
   const router = useRouter();
   const deleteDepartment = async(id) => {
-    const res =await axios.delete(`http://localhost:8080/employee/${id}`);
-    if(res.data.status == 201)
-      router.replace("/employees/employeesTable")
+    console.log(id)
+    const res= await axios.delete(`http://localhost:8080/department/${id}`);
+    if(res.data.status == 200)
+      router.replace("/departments/departmentsTable")
     else
       console.log(res.data.status)
 };
@@ -119,7 +120,7 @@ export default function departmentTable(data) {
                 render={(record) => (
                 <Space size="middle">
                   <Button type="primary" htmlType="submit" onClick={() => router.push({pathname:`/departments/[id]`,query:{id:record.department_id}})} >Επεξεργασια</Button>
-                  <Button type="primary" danger onClick={() => deleteDepartment(record.employee_id)}>Διαγραφη</Button>
+                  <Button type="primary" danger onClick={() => deleteDepartment(record.department_id)}>Διαγραφη</Button>
                 </Space>
               )}/>
             </Table>
