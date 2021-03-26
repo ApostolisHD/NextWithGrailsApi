@@ -1,10 +1,6 @@
-import Head from 'next/head'
-import {useState} from 'react';
-import {Layout, Menu} from 'antd';
+import {useCookies} from 'react-cookie'
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import Link from 'next/link'
-import {SmileFilled} from '@ant-design/icons'
 import {
   Form,
   Input,
@@ -18,10 +14,16 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 export default function login() {
   const router = useRouter();
+  const [cookie, setCookie] = useCookies(["user"])
 
   async function handleLogin (values) {
     const vertification = await axios.get(`http://localhost:8080/authentication`, {params:{user_name:values.user_name, user_password:values.user_password}}) 
-    console.log(vertification)
+    console.log(vertification.data.sessionVariable)
+    setCookie("user",vertification.data.sessionVariable, {
+      path: "/",
+      maxAge: 3600, // Expires after 1hr
+      sameSite: true,
+    })
     if (vertification.data.status==200) {
       router.push('/employees/employeesTable')
     }else if(vertification.data.status==500) {

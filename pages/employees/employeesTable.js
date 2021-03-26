@@ -52,7 +52,6 @@ export default function employeeTable(data) {
       </Menu.Item>
     </Menu>
   );
-  
   return (
     <Layout>
       <Layout>

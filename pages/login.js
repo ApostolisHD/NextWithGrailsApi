@@ -1,8 +1,4 @@
-import Head from 'next/head'
-import {useState, useEffect} from 'react';
 import 'antd/dist/antd.css';
-import axios from 'axios';
-import {useRouter} from 'next/router'
 import LoginForm from '../components/loginForm'
 import {
   Layout,

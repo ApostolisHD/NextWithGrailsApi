@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
 import DepartmentTable from '../departments/departmentsTable'
-import {Divider, Layout, Menu, Table,Space,Button} from 'antd';
+import {Divider, Layout, Menu, Table,Space,Button,Row,Col,Dropdown} from 'antd';
 import {UserOutlined, LaptopOutlined,BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
