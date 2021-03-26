@@ -181,9 +181,14 @@ export default function employeeEdit(data) {
                     </Col>
                   </Row> */}
                   <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                      Δημιουργια
-                    </Button>
+                        <Space size='large' style={{marginInlineStart:'20%'}}>
+                          <Button type="primary" htmlType="submit" className="login-form-button">
+                            Αποθηκευση
+                          </Button>
+                          <Button type="primary" htmlType="submit" danger className="login-form-button">
+                            Ακυρωση
+                          </Button>
+                        </Space>
                   </Form.Item>
                 </Form>
               </Col>

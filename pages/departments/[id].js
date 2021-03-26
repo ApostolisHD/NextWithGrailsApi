@@ -2,19 +2,35 @@ import Link from 'next/link'
 import {useState, useEffect} from 'react';
 import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
+import moment from 'moment';
+import 'moment/locale/el'
+import locale from 'antd/lib/locale/el_GR';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import DepartmentTable from '../departments/departmentsTable'
-import {Divider, Layout, Menu, Table,Space,Button} from 'antd';
-import {UserOutlined, LaptopOutlined} from '@ant-design/icons';
+import {
+  Divider,
+  Layout,
+  Menu,
+  Form,
+  Input,
+  Button,
+  Select,
+  Row,
+  DatePicker,
+  ConfigProvider,
+  Col,
+  Space
+} from 'antd';
+import {UserOutlined, LaptopOutlined, LockOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
+const {Option} = Select;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   let data;
   data = await
-  axios.get(`http://localhost:8080/department`);
+  axios.get(`http://localhost:8080/department/${context.params.id}`);
   console.log(data)
   return {
     props: {
@@ -23,16 +39,19 @@ export async function getServerSideProps() {
   }
 }
 
-export default function departmentTable(data) {
-
-  const deleteDepartment = async(id) => {
-    const res =await axios.delete(`http://localhost:8080/employee/${id}`);
-    if(res.data.status == 201)
-      router.replace("/employees/employeesTable")
-    else
-      console.log(res.data.status)
-};
+export default function employeeEdit(data) {
   const router = useRouter();
+  async function onFinish(values) {
+    const vertification = await
+    axios.put(`http://localhost:8080/department/${data.data.department_id}`, {name: values.name})
+    console.log(vertification)
+    if (vertification.data.status == 200) {
+      router.back()
+    } else if (vertification.data.status == 500) {
+      console.log("oxi")
+    }
+  }
+
   return (
     <Layout>
       <Layout>
@@ -60,7 +79,6 @@ export default function departmentTable(data) {
           <Menu
             theme="dark"
             mode="inline"
-            defaultOpenKeys={['sub2']}
             style={{
             height: '100%',
             borderRight: 0
@@ -82,7 +100,7 @@ export default function departmentTable(data) {
         <Content style={{
           margin: '24px 16px 0'
         }}>
-          <Divider>Τμηματα</Divider>
+          <Divider>Επεξεργασια τμηματος</Divider>
           <div
             className="site-layout-background"
             style={{
@@ -90,18 +108,37 @@ export default function departmentTable(data) {
             paddingBottom: 300,
             minHeight: '100%'
           }}>
-            <Table dataSource={data.data} rowKey={record => record.department_id}>
-              <Column title="Τμημα" name="name" dataIndex="name"></Column>
-              <Column
-                 title="Διαχειρηση"
-                key="department_id"
-                render={(record) => (
-                <Space size="middle">
-                  <Button type="primary" htmlType="submit" onClick={() => router.push({pathname:`/departments/[id]`,query:{id:record.department_id}})} >Επεξεργασια</Button>
-                  <Button type="primary" danger onClick={() => deleteDepartment(record.employee_id)}>Διαγραφη</Button>
-                </Space>
-              )}/>
-            </Table>
+            <Row justify="center">
+              <Col span={12} offset={6}>
+                <Form
+                  name="normal_login"
+                  className="login-form"
+                  initialValues={data.data}
+                  onFinish={onFinish}>
+                  <Form.Item
+                    name="name"
+                    rules={[{
+                      required: true,
+                      message: 'Παρακαλω εισαγετε το ονομα του τμηματος!'
+                    }
+                  ]}>
+                    <Input
+                      prefix={< UserOutlined className = "site-form-item-icon" />}
+                      placeholder="Ονομα Τμηματος"/>
+                  </Form.Item>
+                  <Form.Item>
+                        <Space size='large' style={{marginInlineStart:'20%'}}>
+                          <Button type="primary" htmlType="submit" className="login-form-button">
+                            Αποθηκευση
+                          </Button>
+                          <Button type="primary" danger className="login-form-button">
+                            Ακυρωση
+                          </Button>
+                        </Space>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
           </div>
         </Content>
       </Layout>
@@ -112,5 +149,5 @@ export default function departmentTable(data) {
         marginTop: 0
       }}>Ant Design ©2018 Created by Ant UED</Footer>
     </Layout>
-  );
-}
+  )
+    }
