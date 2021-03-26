@@ -71,7 +71,8 @@ export default function createDepartment(data) {
         }}
           onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
-        }}>
+        }}
+        style={{minHeight: '100'}}>
           <div className="logo"/>
           <Menu
             theme="dark"
@@ -79,7 +80,8 @@ export default function createDepartment(data) {
             defaultOpenKeys={['sub1']}
             style={{
             height: '100%',
-            borderRight: 0
+            borderRight: 0,
+          
           }}>
             <SubMenu key="sub1" icon={< UserOutlined />} title="Εργαζομενοι">
               <Menu.Item key="1" onClick={() => router.replace("/employees/employeesTable")}>Προβολη</Menu.Item>
@@ -103,7 +105,8 @@ export default function createDepartment(data) {
             className="site-layout-background"
             style={{
             padding: 24,
-            minHeight: 700
+            paddingBottom:300,
+            minHeight: '100%'
           }}>
             <Row justify="center">
               <Col span={12} offset={6}>
@@ -181,7 +184,9 @@ export default function createDepartment(data) {
         </Content>
       </Layout>
       <Footer style={{
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingTop:0,
+        marginTop: 0
       }}>Ant Design ©2018 Created by Ant UED</Footer>
     </Layout>
   );
