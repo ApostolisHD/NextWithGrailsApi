@@ -8,7 +8,7 @@ import {useRouter} from 'next/router'
 import LayoutCustom from '../../components/layout'
 import {
   Divider,
-  Menu,
+  notification,
   Form,
   Input,
   Button,
@@ -18,6 +18,7 @@ import {
   ConfigProvider,
   Space,
   Col,
+  message
 } from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 
@@ -49,13 +50,38 @@ export default function employeeEdit(data) {
       date_of_birth: dateofbirthReg,
       id_dep: values.id_dep
     })
-    console.log(vertification)
     if (vertification.data.status == 200) {
-      router.back()
-    } else if (vertification.data.status == 500) {
-      console.log("oxi")
+      openMessage();
+      router.back();
+    } else 
+      openNotification();
     }
-  }
+  ;
+
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+        Κατάλαβα!
+      </Button>
+    );
+    notification.open({
+      message: 'Προσοχή!',
+      description: 'Το ΑΦΜ που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ γράψτε το δικό σας ΑΦΜ!',
+      duration: 0,
+      btn,
+      key,
+      onClose: close
+    });
+  };
+
+  const key = 'updatable';
+  const openMessage = () => {
+    message.loading({content: 'Επεξεργασια...', key});
+    setTimeout(() => {
+      message.success({content: 'Ετοιμο!', key, duration: 10});
+    }, 1000);
+  };
 
   return (
     <LayoutCustom>
@@ -76,9 +102,15 @@ export default function employeeEdit(data) {
               onFinish={onFinish}>
               <Form.Item
                 name="first_name"
-                rules={[{
+                rules={[
+                {
+                  min: 3,
+                  max: 50,
                   required: true,
                   message: 'Παρακαλω εισαγετε το ονομα του εργαζομενου!'
+                }, {
+                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
                 }
               ]}>
                 <Input
@@ -87,9 +119,15 @@ export default function employeeEdit(data) {
               </Form.Item>
               <Form.Item
                 name="last_name"
-                rules={[{
+                rules={[
+                {
+                  min: 3,
+                  max: 50,
                   required: true,
                   message: 'Παρακαλω εισαγετε το επωνυμο του εργαζομενου!'
+                }, {
+                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
                 }
               ]}>
                 <Input
@@ -98,9 +136,17 @@ export default function employeeEdit(data) {
               </Form.Item>
               <Form.Item
                 name="afm"
-                rules={[{
+                rules={[
+                {
                   required: true,
                   message: 'Παρακαλω εισαγετε το ΑΦΜ του εργαζομενου!'
+                }, {
+                  min: 9,
+                  max: 9,
+                  message: 'Το ΑΦΜ πρέπει να έχει 9 ψηφία'
+                }, {
+                  pattern: "^[0-9]*$",
+                  message: "Παρακαλώ εισάγεται μόνο αριθμούς"
                 }
               ]}>
                 <Input
