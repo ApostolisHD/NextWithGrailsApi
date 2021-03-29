@@ -9,6 +9,8 @@ import {
   Row,
   Col,
   Space,
+  notification,
+  message
 } from 'antd';
 import {BankOutlined} from '@ant-design/icons';
 import LayoutCustom from '../../components/layout'
@@ -32,12 +34,38 @@ export default function employeeEdit(data) {
     axios.put(`http://localhost:8080/department/${data.data.department_id}`, {name: values.name})
     console.log(vertification)
     if (vertification.data.status == 200) {
+      openMessage();
       router.back()
-    } else if (vertification.data.status == 500) {
-      console.log("oxi")
+    } else 
+      openNotification();
     }
-  }
+  ;
 
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+        Κατάλαβα!
+      </Button>
+    );
+    notification.open({
+      message: 'Προσοχη!',
+      description: 'Το όνομα του τμήματος που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ εισάγετε νεο όνο' +
+          'μα τμηματος',
+      duration: 0,
+      btn,
+      key,
+      onClose: close
+    });
+  };
+
+  const key = 'updatable';
+  const openMessage = () => {
+    message.loading({content: 'Επεξεργασια...', key});
+    setTimeout(() => {
+      message.success({content: 'Ετοιμο!', key, duration: 10});
+    }, 1000);
+  };
   return (
     <LayoutCustom>
       <Divider>Επεξεργασια τμηματος</Divider>
@@ -57,9 +85,16 @@ export default function employeeEdit(data) {
               onFinish={onFinish}>
               <Form.Item
                 name="name"
-                rules={[{
+                rules={[
+                {
                   required: true,
                   message: 'Παρακαλω εισαγετε το ονομα του τμηματος!'
+                }, {
+                  max: 9,
+                  message: 'Το τμήμα πρέπει να έχει 9 ψηφία'
+                }, {
+                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
                 }
               ]}>
                 <Input

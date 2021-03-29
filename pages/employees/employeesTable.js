@@ -6,7 +6,9 @@ import {
   Divider,
   Table,
   Space,
-  Button
+  Button,
+  notification,
+  Popconfirm
 } from 'antd';
 import LayoutCustom from '../../components/layout'
 
@@ -22,14 +24,32 @@ export async function getServerSideProps() {
 }
 
 export default function employeeTable(data) {
-  console.log(data)
   const router = useRouter();
+
   const deleteEmployee = async(id) => {
     const res = await axios.delete(`http://localhost:8080/employee/${id}`);
-    if (res.data.status == 200) 
+    if (res.data.status == 200) {
       router.replace("/employees/employeesTable")
-    else 
-      console.log(res.data.status)
+    } else 
+      openNotification();
+    }
+  ;
+
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+        Κατάλαβα!
+      </Button>
+    );
+    notification.open({
+      message: 'Προσοχή!',
+      description: 'Κατι πηγε στραβα δοκιμαστε ξανα!',
+      duration: 0,
+      btn,
+      key,
+      onClose: close
+    });
   };
 
   return (
@@ -65,10 +85,14 @@ export default function employeeTable(data) {
                   id: record.employee_id
                 }
               })}>Επεξεργασια</Button>
-              <Button
-                type="primary"
-                danger
-                onClick={() => deleteEmployee(record.employee_id)}>Διαγραφη</Button>
+              <Popconfirm
+                title="Ειστε σίγουρος οτι θέλετε να διαγράψετε τον εργαζομενο?"
+                onConfirm={() => deleteEmployee(record.employee_id)}
+                onCancel={() => router.replace("/employees/employeesTable")}
+                okText="Ναι"
+                cancelText="Οχι">
+                <Button type="primary" danger>Διαγραφη</Button>
+              </Popconfirm>
             </Space>
           )}/>
         </Table>

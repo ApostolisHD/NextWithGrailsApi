@@ -1,6 +1,7 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import 'moment/locale/el'
+import locale from 'antd/lib/locale/el_GR';
 import {useRouter} from 'next/router'
 import {
   Divider,
@@ -11,6 +12,9 @@ import {
   Row,
   DatePicker,
   Col,
+  notification,
+  ConfigProvider,
+  message
 } from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import LayoutCustom from '../../components/layout'
@@ -40,11 +44,36 @@ export default function createEmployee(data) {
       id_dep: values.id_dep
     })
     if (vertification.data.status == 200) {
+      openMessage()
       router.replace("/employees/employeesTable")
-    } else if (vertification.data.status == 500) {
-      console.log("oxi")
+    } else 
+      openNotification();
     }
-  }
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+        Confirm
+      </Button>
+    );
+    notification.open({
+      message: 'Προσοχή!',
+      description: 'Το ΑΦΜ που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ γράψτε το δικό σας ΑΦΜ!',
+      duration: 0,
+      btn,
+      key,
+      onClose: close
+    });
+  };
+
+  const key = 'updatable';
+  const openMessage = () => {
+    message.loading({content: 'Δημιουργια...', key});
+    setTimeout(() => {
+      message.success({content: 'Καταχωρηθηκε!', key, duration: 10});
+    }, 1000);
+  };
+
   return (
     <LayoutCustom>
       <Divider>Δημιουργια Εργαζομενου</Divider>
@@ -60,9 +89,15 @@ export default function createEmployee(data) {
             <Form onFinish={onFinish} name="normal_login" className="login-form">
               <Form.Item
                 name="first_name"
-                rules={[{
+                rules={[
+                {
+                  min: 3,
+                  max: 50,
                   required: true,
                   message: 'Παρακαλω εισαγετε το ονομα του εργαζομενου!'
+                }, {
+                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
                 }
               ]}>
                 <Input
@@ -71,9 +106,16 @@ export default function createEmployee(data) {
               </Form.Item>
               <Form.Item
                 name="last_name"
-                rules={[{
+                rules={[
+                {
                   required: true,
                   message: 'Παρακαλω εισαγετε το επωνυμο του εργαζομενου!'
+                }, {
+                  min: 3,
+                  max: 50
+                }, {
+                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
                 }
               ]}>
                 <Input
@@ -82,9 +124,17 @@ export default function createEmployee(data) {
               </Form.Item>
               <Form.Item
                 name="afm"
-                rules={[{
+                rules={[
+                {
                   required: true,
                   message: 'Παρακαλω εισαγετε το ΑΦΜ του εργαζομενου!'
+                }, {
+                  min: 9,
+                  max: 9,
+                  message: 'Το ΑΦΜ πρέπει να έχει 9 ψηφία'
+                }, {
+                  pattern: "^[0-9]*$",
+                  message: "Παρακαλώ εισάγεται μόνο αριθμούς"
                 }
               ]}>
                 <Input
@@ -100,7 +150,9 @@ export default function createEmployee(data) {
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                    <DatePicker format='DD/MM/YYYY'/>
+                    <ConfigProvider locale={locale}>
+                      <DatePicker format='DD/MM/YYYY'/>
+                    </ConfigProvider>
                   </Form.Item>
                 </Col>
               </Row>

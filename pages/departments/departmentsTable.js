@@ -4,11 +4,11 @@ import axios from 'axios';
 import {useRouter} from 'next/router'
 import {
   Divider,
-  Layout,
-  Menu,
   Table,
   Space,
   Button,
+  notification,
+  Popconfirm
 } from 'antd';
 import LayoutCustom from '../../components/layout'
 
@@ -27,12 +27,29 @@ export async function getServerSideProps() {
 export default function departmentTable(data) {
   const router = useRouter();
   const deleteDepartment = async(id) => {
-    console.log(id)
     const res = await axios.delete(`http://localhost:8080/department/${id}`);
     if (res.data.status == 200) 
       router.replace("/departments/departmentsTable")
     else 
-      console.log(res.data.status)
+      openNotification();
+    }
+  ;
+
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+        Κατάλαβα!
+      </Button>
+    );
+    notification.open({
+      message: 'Προσοχή!',
+      description: 'Δεν μπορεις να διαγραψεις αυτο το τμημα. Γιατι εχει εργαζομενους!',
+      duration: 0,
+      btn,
+      key,
+      onClose: close
+    });
   };
 
   return (
@@ -61,10 +78,14 @@ export default function departmentTable(data) {
                   id: record.department_id
                 }
               })}>Επεξεργασια</Button>
-              <Button
-                type="primary"
-                danger
-                onClick={() => deleteDepartment(record.department_id)}>Διαγραφη</Button>
+              <Popconfirm
+                title="Ειστε σίγουρος οτι θέλετε να διαγράψετε το τμήμα?"
+                onConfirm={() => deleteDepartment(record.department_id)}
+                onCancel={() => router.replace("/departments/departmentsTable")}
+                okText="Ναι"
+                cancelText="Οχι">
+                <Button type="primary" danger>Διαγραφη</Button>
+              </Popconfirm>
             </Space>
           )}/>
         </Table>

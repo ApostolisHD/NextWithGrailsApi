@@ -72,7 +72,7 @@ export default function employeeTable({children}) {
           <Menu
             theme="dark"
             mode="inline"
-            defaultOpenKeys={['sub1']}
+            defaultOpenKeys={['sub1','sub2']}
             style={{
             height: '100%',
             borderRight: 0
