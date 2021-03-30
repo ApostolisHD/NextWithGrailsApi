@@ -26,8 +26,11 @@ export default function employeeTable({children}) {
 
     async function handleLogout () {
       const vertification = await axios.get(`http://localhost:8080/authentication/logout`,{withCredentials: true})
-      console.log(vertification) 
+      if (vertification.data.status==200) {
+        router.push('/')
+      }
   }
+
   const menu = (
     <Menu>
       <Menu.Item>

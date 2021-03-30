@@ -1,4 +1,3 @@
-import {useCookies} from 'react-cookie'
 import axios from 'axios';
 import {useRouter} from 'next/router'
 import {
@@ -14,7 +13,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 export default function login() {
   const router = useRouter();
-  const [cookie, setCookie] = useCookies(["user"])
 
   async function handleLogin (values) {
     const vertification = await axios.post(`http://localhost:8080/authentication`,{user_name:values.user_name, user_password:values.user_password},{withCredentials: true}) 
