@@ -1,21 +1,7 @@
-import Link from 'next/link'
-import {useState, useEffect, Children} from 'react';
-import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {useRouter} from 'next/router'
-import {
-  Divider,
-  Layout,
-  Menu,
-  Table,
-  Space,
-  Button,
-  Row,
-  Col,
-  Breadcrumb,
-  Dropdown
-} from 'antd';
+import {useRouter} from 'next/router';
+import { Layout, Menu,Row,Col,Breadcrumb,Dropdown} from 'antd';
 import {UserOutlined, BankOutlined} from '@ant-design/icons';
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -23,14 +9,13 @@ const {SubMenu} = Menu;
 
 export default function allIndex({children}) {
     const router = useRouter();
-
     async function handleLogout () {
-      const vertification = await axios.get(`http://localhost:8080/authentication/logout`,{withCredentials: true})
+      const vertification = await axios.get(`http://localhost:8080/authentication/logout`,{withCredentials: true});
       if (vertification.data.status==200) {
         router.push('/')
       }
-  }
-
+  };
+  
   const menu = (
     <Menu>
       <Menu.Item>
@@ -50,9 +35,9 @@ export default function allIndex({children}) {
                 color: "white"
               }}>Εργαζομενοι-Τμηματα</h1>
             </Col>
-            <Col span={4}>col-4</Col>
-            <Col span={4}>col-4</Col>
-            <Col span={4}>col-4</Col>
+            <Col span={4}></Col>
+            <Col span={4}></Col>
+            <Col span={4}></Col>
             <Col span={4}>
               <Dropdown.Button
                 overlay={menu}

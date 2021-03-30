@@ -1,13 +1,8 @@
 import 'antd/dist/antd.css';
-import LoginForm from '../components/loginForm'
-import {
-  Layout,
-  Divider,
-  Row,
-  Col
-} from 'antd';
+import LoginForm from '../components/loginForm';
+import {Layout,Divider,Row,Col} from 'antd';
 import {Space, Card} from 'antd';
-const {Header, Content, Footer} = Layout;
+const {Header, Footer} = Layout;
 
 export default function login() {
   return (

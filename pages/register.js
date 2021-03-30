@@ -1,27 +1,30 @@
-import Head from 'next/head'
-import {useState, useEffect, useDebugValue} from 'react';
-import styles from '../styles/Home.module.css'
 import 'antd/dist/antd.css';
-import {Table, Space,Form,Input,InputNumber,Typography,Popconfirm, Button, Badge} from 'antd';
-import axios from 'axios';
-import { useRouter } from 'next/router'
-import FormItem from 'antd/lib/form/FormItem';
+import RegisterForm from '../components/registerForm';
+import {Layout,Divider,Row,Col} from 'antd';
+import {Space, Card} from 'antd';
+const {Header, Footer} = Layout;
 
 export default function login() {
-
- async function onFinish(values){
-   console.log(values)
-   await axios.post(`http://localhost:8080/department`,{
-     name:values.name
-   })
- }
-
   return (
-    <Form onFinish={onFinish}>
-        <FormItem name="name">
-          <Input></Input>
-        </FormItem>
-        <Button htmlType="submit">click</Button>
-    </Form>
-);
-  }
+    <Layout className="layout">
+    <Header></Header>
+      <Divider>Register</Divider>
+      <div className="site-layout-background" style={{ padding: 24, minHeight: 700 }}>
+      <Row justify="center">
+        <Col xl>
+          <Space direction="vertical" style={{
+            width: 600
+          }}>
+            <Card title="Register Form" style={{textAlign:'center'}}>
+             <RegisterForm/>
+            </Card>
+          </Space>
+        </Col>
+      </Row>
+      </div>
+      <Footer style={{
+        textAlign: 'center'
+      }}>Copyright &copy; Employee - Department Management 2021</Footer>
+    </Layout>
+  );
+}
