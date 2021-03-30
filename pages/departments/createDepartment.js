@@ -56,6 +56,7 @@ export default function createDepartment(data) {
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
+              layout="vertical"
               onFinish={onFinish}
               name="normal_login"
               className="login-form"
@@ -64,6 +65,7 @@ export default function createDepartment(data) {
             }}>
               <Form.Item
                 name="name"
+                label="Όνομα τμήματος"
                 rules={[
                 {
                   required: true,

@@ -7,8 +7,7 @@ import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   let data;
-  data = await
-  axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
+  data = await axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
   return {
     props: {
       data: data.data

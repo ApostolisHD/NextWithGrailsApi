@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router';
-import {Divider,Form,Input,Button,Select,Row,DatePicker,Col,notification,message} from 'antd';
+import {Divider,Form,Input,Button,Select,Row,DatePicker,Col,notification,message,Space} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import LayoutCustom from '../../components/layout';
 
@@ -67,13 +67,19 @@ export default function createEmployee(data) {
         style={{
         padding: 24,
         paddingBottom: 300,
-        minHeight: 800
+        minHeight: 700
       }}>
         <Row justify="center">
           <Col span={12} offset={6}>
-            <Form onFinish={onFinish} name="normal_login" className="login-form">
+            <Form
+              layout="vertical"
+              name="normal_login"
+              className="login-form"
+              initialValues={data.data}
+              onFinish={onFinish}>
               <Form.Item
                 name="first_name"
+                label="Όνομα εργαζομένου"
                 rules={[
                 {
                   min: 3,
@@ -91,13 +97,13 @@ export default function createEmployee(data) {
               </Form.Item>
               <Form.Item
                 name="last_name"
+                label="Επώνυμο εργαζομένου"
                 rules={[
                 {
+                  min: 3,
+                  max: 50,
                   required: true,
                   message: 'Παρακαλω εισαγετε το επωνυμο του εργαζομενου!'
-                }, {
-                  min: 3,
-                  max: 50
                 }, {
                   pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
                   message: "Παρακαλώ εισάγεται μόνο γράμματα"
@@ -109,6 +115,7 @@ export default function createEmployee(data) {
               </Form.Item>
               <Form.Item
                 name="afm"
+                label="ΑΦΜ εργαζομένου"
                 rules={[
                 {
                   required: true,
@@ -130,6 +137,7 @@ export default function createEmployee(data) {
                 <Col>
                   <Form.Item
                     name="date_of_birth"
+                    label="Ημερομηνία γέννησης"
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
@@ -143,16 +151,15 @@ export default function createEmployee(data) {
                 <Col>
                   <Form.Item
                     name="id_dep"
+                    label="Τμημα εργαζομένου"
                     rules={[{
                       required: true,
-                      message: 'Παρακαλω εισαγετε το τμημα του εργαζομενου!'
+                      message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                    <Select
-                      style={{
+                    <Select style={{
                       width: 400
-                    }}
-                      placeholder="Επιλεξτε το τμημα του εργαζομενου">
+                    }}>
                       {data
                         .data
                         .map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
@@ -161,9 +168,22 @@ export default function createEmployee(data) {
                 </Col>
               </Row>
               <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
-                  Δημιουργια
-                </Button>
+                <Space
+                  size='large'
+                  style={{
+                  marginInlineStart: '20%'
+                }}>
+                  <Button type="primary" htmlType="submit" className="login-form-button">
+                    Αποθηκευση
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    className="login-form-button"
+                    onClick={() => router.back()}>
+                    Ακυρωση
+                  </Button>
+                </Space>
               </Form.Item>
             </Form>
           </Col>

@@ -82,12 +82,14 @@ export default function employeeEdit(data) {
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
+              layout="vertical"
               name="normal_login"
               className="login-form"
               initialValues={data.data}
               onFinish={onFinish}>
               <Form.Item
                 name="first_name"
+                label="Όνομα εργαζομένου"
                 rules={[
                 {
                   min: 3,
@@ -105,6 +107,7 @@ export default function employeeEdit(data) {
               </Form.Item>
               <Form.Item
                 name="last_name"
+                label="Επώνυμο εργαζομένου"
                 rules={[
                 {
                   min: 3,
@@ -122,6 +125,7 @@ export default function employeeEdit(data) {
               </Form.Item>
               <Form.Item
                 name="afm"
+                label="ΑΦΜ εργαζομένου"
                 rules={[
                 {
                   required: true,
@@ -143,6 +147,7 @@ export default function employeeEdit(data) {
                 <Col>
                   <Form.Item
                     name="date_of_birth"
+                    label="Ημερομηνία γέννησης"
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
@@ -161,6 +166,7 @@ export default function employeeEdit(data) {
                 <Col>
                   <Form.Item
                     name="id_dep"
+                    label="Τμημα εργαζομένου"
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'

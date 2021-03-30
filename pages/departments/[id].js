@@ -64,12 +64,14 @@ export default function employeeEdit(data) {
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
+              layout="vertical"
               name="normal_login"
               className="login-form"
               initialValues={data.data}
               onFinish={onFinish}>
               <Form.Item
                 name="name"
+                label="Όνομα τμήματος"
                 rules={[
                 {
                   required: true,
