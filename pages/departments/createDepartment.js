@@ -1,32 +1,23 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import {
-  Divider,
-  notification,
-  Form,
-  Input,
-  Button,
-  Row,
-  Col,
-  message
-} from 'antd';
+import {Divider,notification,Form,Input,Button,Row,Col,message} from 'antd';
 import {BankOutlined} from '@ant-design/icons';
-import LayoutCustom from '../../components/layout'
+import LayoutCustom from '../../components/layout';
 
 export default function createDepartment(data) {
   console.log(data.data)
   const router = useRouter();
 
   async function onFinish(values) {
-    const vertification = await axios.post(`http://localhost:8080/department`, {name: values.name})
+    const vertification = await axios.post(`http://localhost:8080/department`, {name: values.name},{withCredentials: true});
     if (vertification.data.status == 200) {
       openMessage();
-      router.replace("/departments/departmentsTable")
-    } else 
+      router.replace("/departments/departmentsTable");
+    } else if (vertification.data.status == 500){
       openNotification();
     }
-  ;
+    };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
@@ -37,8 +28,7 @@ export default function createDepartment(data) {
     );
     notification.open({
       message: 'Προσοχη!',
-      description: 'Το όνομα του τμήματος που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ εισάγετε νεο όνο' +
-          'μα τμηματος',
+      description: 'Το όνομα του τμήματος που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ εισάγετε νεο όνομα τμηματος',
       duration: 0,
       btn,
       key,
@@ -52,6 +42,7 @@ export default function createDepartment(data) {
       message.success({content: 'Καταχωρηθηκε!', key, duration: 10});
     }, 1000);
   };
+
   return (
     <LayoutCustom>
       <Divider>Δημιουργια Τμηματος</Divider>

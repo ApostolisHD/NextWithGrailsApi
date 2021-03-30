@@ -1,54 +1,39 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import 'moment/locale/el'
-import locale from 'antd/lib/locale/el_GR';
-import {useRouter} from 'next/router'
-import {
-  Divider,
-  Form,
-  Input,
-  Button,
-  Select,
-  Row,
-  DatePicker,
-  Col,
-  notification,
-  ConfigProvider,
-  message
-} from 'antd';
+import {useRouter} from 'next/router';
+import {Divider,Form,Input,Button,Select,Row,DatePicker,Col,notification,message} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
-import LayoutCustom from '../../components/layout'
+import LayoutCustom from '../../components/layout';
 
 const {Option} = Select;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   let data;
-  data = await
-  axios.get(`http://localhost:8080/department`);
+  data = await axios.get(`http://localhost:8080/department`,{headers:{cookie: ctx.req.headers.cookie}});
   return {
     props: {
       data: data.data
     }
   }
-}
+};
 
 export default function createEmployee(data) {
   const router = useRouter();
   async function onFinish(values) {
-    console.log(values)
     const vertification = await axios.post(`http://localhost:8080/employee`, {
       first_name: values.first_name,
       last_name: values.last_name,
       afm: values.afm,
       date_of_birth: values.date_of_birth,
       id_dep: values.id_dep
-    })
+    },{withCredentials:true});
     if (vertification.data.status == 200) {
-      openMessage()
-      router.replace("/employees/employeesTable")
-    } else 
+        openMessage();
+        router.replace("/employees/employeesTable");
+    } else if(vertification.data.status == 500){
       openNotification();
     }
+    };
   const openNotification = () => {
     const key = `open${Date.now()}`;
     const btn = (
@@ -150,9 +135,7 @@ export default function createEmployee(data) {
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                    <ConfigProvider locale={locale}>
                       <DatePicker format='DD/MM/YYYY'/>
-                    </ConfigProvider>
                   </Form.Item>
                 </Col>
               </Row>

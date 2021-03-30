@@ -1,36 +1,28 @@
 import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {useRouter} from 'next/router'
-import {
-  Divider,
-  Table,
-  Space,
-  Button,
-  notification,
-  Popconfirm
-} from 'antd';
-import LayoutCustom from '../../components/layout'
+import {useRouter} from 'next/router';
+import {Divider,Table,Space,Button,notification,Popconfirm} from 'antd';
+import LayoutCustom from '../../components/layout';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   let data;
-  data = await
-  axios.get(`http://localhost:8080/department`);
+  data = await axios.get(`http://localhost:8080/department`,{headers:{cookie: ctx.req.headers.cookie}});
   console.log(data)
   return {
     props: {
       data: data.data
     }
   }
-}
+};
 
 export default function departmentTable(data) {
   const router = useRouter();
   const deleteDepartment = async(id) => {
-    const res = await axios.delete(`http://localhost:8080/department/${id}`);
-    if (res.data.status == 200) 
-      router.replace("/departments/departmentsTable")
-    else 
+    const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
+    if (vertification.data.status == 200) 
+      router.replace("/departments/departmentsTable");
+    else (vertification.data.status == 500) 
       openNotification();
     }
   ;

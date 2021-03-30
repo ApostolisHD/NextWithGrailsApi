@@ -2,40 +2,31 @@ import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import {
-  Divider,
-  Table,
-  Space,
-  Button,
-  notification,
-  Popconfirm
-} from 'antd';
-import LayoutCustom from '../../components/layout'
+import {Divider,Table,Space,Button,notification,Popconfirm} from 'antd';
+import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   let data;
   data = await
-  axios.get(`http://localhost:8080/employee`,{ headers: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined},{withCredentials:true});
+  axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
   return {
     props: {
       data: data.data
     }
   }
-}
+};
 
 export default function employeeTable(data) {
   console.log(data)
   const router = useRouter();
 
   const deleteEmployee = async(id) => {
-    const res = await axios.delete(`http://localhost:8080/employee/${id}`);
-    console.log(res)
+    const res = await axios.delete(`http://localhost:8080/employee/${id}`,{withCredentials:true});
     if (res.data.status == 200) {
-      router.replace("/employees/employeesTable")
-    } else 
+      router.replace("/employees/employeesTable");
+    } else if(res.data.status == 500)
       openNotification();
-    }
-  ;
+    };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;

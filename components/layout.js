@@ -21,7 +21,7 @@ import {UserOutlined, BankOutlined} from '@ant-design/icons';
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
 
-export default function employeeTable({children}) {
+export default function allIndex({children}) {
     const router = useRouter();
 
     async function handleLogout () {

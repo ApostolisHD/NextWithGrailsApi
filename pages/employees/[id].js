@@ -1,62 +1,48 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import 'antd/dist/antd.css';
 import moment from 'moment';
-import 'moment/locale/el'
+import 'moment/locale/el';
 import locale from 'antd/lib/locale/el_GR';
 import axios from 'axios';
 import {useRouter} from 'next/router'
-import LayoutCustom from '../../components/layout'
-import {
-  Divider,
-  notification,
-  Form,
-  Input,
-  Button,
-  Select,
-  Row,
-  DatePicker,
-  ConfigProvider,
-  Space,
-  Col,
-  message
-} from 'antd';
+import LayoutCustom from '../../components/layout';
+import {Divider,notification,Form,Input,Button,Select,Row,DatePicker,ConfigProvider,Space,Col,message} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 
 const {Option} = Select;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(ctx) {
   let data;
-  data = await axios.get(`http://localhost:8080/employee/${context.params.id}`);
-  let depData = await axios.get(`http://localhost:8080/department`);
+  data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}});
+  let depData = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}});
   return {
     props: {
       data: data.data,
       depData: depData.data
     }
   }
-}
+};
 
 export default function employeeEdit(data) {
   const router = useRouter();
-  const [dateofbirthReg,
-    setdateofBirthReg] = useState();
+  const [dateofbirthReg,setdateofBirthReg] = useState();
 
   async function onFinish(values) {
-    const vertification = await
-    axios.put(`http://localhost:8080/employee/${data.data.employee_id}`, {
+    console.log(values)
+    const vertification = await axios.put(`http://localhost:8080/employee/${data.data.employee_id}`, {
       first_name: values.first_name,
       last_name: values.last_name,
       afm: values.afm,
       date_of_birth: dateofbirthReg,
       id_dep: values.id_dep
-    })
+    }, {withCredentials: true});
     if (vertification.data.status == 200) {
       openMessage();
       router.back();
-    } else 
+    } else if (vertification.data.status == 500) {
       openNotification();
     }
-  ;
+  };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
