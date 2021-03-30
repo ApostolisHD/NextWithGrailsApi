@@ -17,19 +17,15 @@ export default function login() {
   const [cookie, setCookie] = useCookies(["user"])
 
   async function handleLogin (values) {
-    const vertification = await axios.get(`http://localhost:8080/authentication`, {params:{user_name:values.user_name, user_password:values.user_password}}) 
-    console.log(vertification.data.sessionVariable)
-    setCookie("user",vertification.data.sessionVariable, {
-      path: "/",
-      maxAge: 3600, // Expires after 1hr
-      sameSite: true,
-    })
+    const vertification = await axios.post(`http://localhost:8080/authentication`,{user_name:values.user_name, user_password:values.user_password},{withCredentials: true}) 
+    console.log(vertification)
     if (vertification.data.status==200) {
       router.push('/employees/employeesTable')
     }else if(vertification.data.status==500) {
       openNotification()
     }  
   }
+  
 
   const close = () => {};
   const openNotification = () => {

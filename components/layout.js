@@ -23,6 +23,11 @@ const {SubMenu} = Menu;
 
 export default function employeeTable({children}) {
     const router = useRouter();
+
+    async function handleLogout () {
+      const vertification = await axios.get(`http://localhost:8080/authentication/logout`,{withCredentials: true})
+      console.log(vertification) 
+  }
   const menu = (
     <Menu>
       <Menu.Item>
@@ -30,6 +35,7 @@ export default function employeeTable({children}) {
       </Menu.Item>
     </Menu>
   );
+  
   return (
     <Layout>
       <Layout>
@@ -48,7 +54,8 @@ export default function employeeTable({children}) {
               <Dropdown.Button
                 overlay={menu}
                 placement="bottomCenter"
-                icon={< UserOutlined />}>
+                icon={< UserOutlined />}
+                onClick={handleLogout}>
                 Logout
               </Dropdown.Button>
             </Col>

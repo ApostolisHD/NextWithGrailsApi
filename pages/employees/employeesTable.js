@@ -12,10 +12,10 @@ import {
 } from 'antd';
 import LayoutCustom from '../../components/layout'
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   let data;
   data = await
-  axios.get(`http://localhost:8080/employee`);
+  axios.get(`http://localhost:8080/employee`,{ headers: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined},{withCredentials:true});
   return {
     props: {
       data: data.data
@@ -24,10 +24,12 @@ export async function getServerSideProps() {
 }
 
 export default function employeeTable(data) {
+  console.log(data)
   const router = useRouter();
 
   const deleteEmployee = async(id) => {
     const res = await axios.delete(`http://localhost:8080/employee/${id}`);
+    console.log(res)
     if (res.data.status == 200) {
       router.replace("/employees/employeesTable")
     } else 
