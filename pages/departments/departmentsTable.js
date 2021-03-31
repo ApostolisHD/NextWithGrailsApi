@@ -6,13 +6,17 @@ import {Divider,Table,Space,Button,notification,Popconfirm} from 'antd';
 import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
-  let data;
-  data = await axios.get(`http://localhost:8080/department`,{headers:{cookie: ctx.req.headers.cookie}});
-  console.log(data)
-  return {
-    props: {
-      data: data.data
+  try {
+    let data = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    return {
+      props: {
+        data: data.data,
+      }
     }
+  } catch (error) {
+    ctx.res.writeHead(307, {Location: '/'})
+    ctx.res.end();
+    return{ props: { data: null } };
   }
 };
 

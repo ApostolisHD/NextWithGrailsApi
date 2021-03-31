@@ -10,14 +10,19 @@ import {UserOutlined} from '@ant-design/icons';
 const {Option} = Select;
 
 export async function getServerSideProps(ctx) {
-  let data;
-  data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}});
-  let depData = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}});
-  return {
-    props: {
-      data: data.data,
-      depData: depData.data
+  try {
+    let data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    let depData = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    return {
+      props: {
+        data: data.data,
+        depData: depData.data
+      }
     }
+  } catch (error) {
+    ctx.res.writeHead(307, {Location: '/'})
+    ctx.res.end();
+    return{ props: { data: null } };
   }
 };
 
