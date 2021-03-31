@@ -20,9 +20,15 @@ export async function getServerSideProps(ctx) {
       }
     }
   } catch (error) {
-    ctx.res.writeHead(307, {Location: '/'})
-    ctx.res.end();
-    return{ props: { data: null } };
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+      props: {
+        data: null
+      }
+    }
   }
 };
 

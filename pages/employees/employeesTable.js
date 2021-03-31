@@ -7,6 +7,7 @@ import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   try {
+    
     let data = await axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
     return {
       props: {
@@ -14,9 +15,15 @@ export async function getServerSideProps(ctx) {
       }
     }
   } catch (error) {
-    ctx.res.writeHead(307, {Location: '/'})
-    ctx.res.end();
-    return{ props: { data: null } };
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+      props: {
+        data: null
+      }
+    }
   }
 };
 
