@@ -57,13 +57,7 @@ export default function departmentTable(data) {
   return (
     <LayoutCustom>
       <Divider>Τμηματα</Divider>
-      <div
-        className="site-layout-background"
-        style={{
-        padding: 24,
-        paddingBottom: 300,
-        minHeight: 700
-      }}>
+      <div className="site-layout-background">
         <Table dataSource={data.data} rowKey={record => record.department_id}>
           <Column title="Τμημα" name="name" dataIndex="name"></Column>
           <Column

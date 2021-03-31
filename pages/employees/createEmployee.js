@@ -73,13 +73,7 @@ export default function createEmployee(data) {
   return (
     <LayoutCustom>
       <Divider>Δημιουργια Εργαζομενου</Divider>
-      <div
-        className="site-layout-background"
-        style={{
-        padding: 24,
-        paddingBottom: 300,
-        minHeight: 700
-      }}>
+      <div className="site-layout-background">
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
@@ -90,6 +84,7 @@ export default function createEmployee(data) {
               onFinish={onFinish}>
               <Form.Item
                 name="first_name"
+                hasFeedback
                 label="Όνομα εργαζομένου"
                 rules={[
                 {
@@ -108,6 +103,7 @@ export default function createEmployee(data) {
               </Form.Item>
               <Form.Item
                 name="last_name"
+                hasFeedback
                 label="Επώνυμο εργαζομένου"
                 rules={[
                 {
@@ -125,6 +121,7 @@ export default function createEmployee(data) {
                   placeholder="Επωνυμο εργαζομενου"/>
               </Form.Item>
               <Form.Item
+                hasFeedback
                 name="afm"
                 label="ΑΦΜ εργαζομένου"
                 rules={[
@@ -147,6 +144,7 @@ export default function createEmployee(data) {
               <Row justify="center">
                 <Col>
                   <Form.Item
+                    hasFeedback
                     name="date_of_birth"
                     label="Ημερομηνία γέννησης"
                     rules={[{
@@ -162,13 +160,17 @@ export default function createEmployee(data) {
                 <Col>
                   <Form.Item
                     name="id_dep"
+                    hasFeedback
                     label="Τμημα εργαζομένου"
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                    <Select style={{
+                    <Select 
+                    // pre={< UserOutlined className = "site-form-item-icon" />}
+                    placeholder="Τμήμα Εργαζομένου"
+                    style={{
                       width: 400
                     }}>
                       {data

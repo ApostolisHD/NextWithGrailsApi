@@ -9,7 +9,7 @@ export default function register() {
     <Layout className="layout">
     <Header></Header>
       <Divider>Εγγραφή</Divider>
-      <div className="site-layout-background" style={{ padding: 24, minHeight: 700 }}>
+      <div className="site-layout-background" style={{ padding: 24, minHeight: 780 }}>
       <Row justify="center">
         <Col xl>
           <Space direction="vertical" style={{

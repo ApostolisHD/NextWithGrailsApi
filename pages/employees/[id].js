@@ -80,13 +80,7 @@ export default function employeeEdit(data) {
   return (
     <LayoutCustom>
       <Divider>Επεξεργασια Εργαζομενου</Divider>
-      <div
-        className="site-layout-background"
-        style={{
-        padding: 24,
-        paddingBottom: 300,
-        minHeight: 700
-      }}>
+      <div className="site-layout-background">
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
@@ -104,6 +98,7 @@ export default function employeeEdit(data) {
               <Form.Item
                 name="firstName"
                 label="Όνομα εργαζομένου"
+                hasFeedback
                 rules={[
                 {
                   min: 3,
@@ -122,6 +117,7 @@ export default function employeeEdit(data) {
               <Form.Item
                 name="lastName"
                 label="Επώνυμο εργαζομένου"
+                hasFeedback
                 rules={[
                 {
                   min: 3,
@@ -140,6 +136,7 @@ export default function employeeEdit(data) {
               <Form.Item
                 name="afm"
                 label="ΑΦΜ εργαζομένου"
+                hasFeedback
                 rules={[
                 {
                   required: true,
@@ -162,6 +159,7 @@ export default function employeeEdit(data) {
                   <Form.Item
                     name="dateOfBirth"
                     label="Ημερομηνία γέννησης"
+                    hasFeedback
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
@@ -176,6 +174,7 @@ export default function employeeEdit(data) {
                   <Form.Item
                     name="departmentId"
                     label="Τμημα εργαζομένου"
+                    hasFeedback
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε το τμήμα του εργαζομενου!'

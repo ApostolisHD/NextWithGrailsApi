@@ -3,23 +3,34 @@ import axios from 'axios';
 import {useRouter} from 'next/router';
 import { Layout, Menu,Row,Col,Breadcrumb,Dropdown} from 'antd';
 import {UserOutlined, BankOutlined} from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 
 const {Header, Content, Footer, Sider} = Layout;
 const {SubMenu} = Menu;
-
 export default function allIndex({children}) {
     const router = useRouter();
+    const [userName,setUserName]= useState('')
+
     async function handleLogout () {
       const vertification = await axios.get(`http://localhost:8080/authentication/logout`,{withCredentials: true});
       if (vertification.data.status==200) {
-        router.push('/')
+        router.push('/');
       }
   };
   
+  async function showUserName () {
+    const vertification = await axios.get(`http://localhost:8080/authentication/userName`,{withCredentials: true});
+    setUserName(vertification.data.userName)
+    };
+
+  useEffect(()=>{
+    showUserName()
+  },[])
+  
   const menu = (
     <Menu>
-      <Menu.Item>
-        logout
+      <Menu.Item onClick={handleLogout}>
+        Αποσύνδεση
       </Menu.Item>
     </Menu>
   );
@@ -42,9 +53,8 @@ export default function allIndex({children}) {
               <Dropdown.Button
                 overlay={menu}
                 placement="bottomCenter"
-                icon={< UserOutlined />}
-                onClick={handleLogout}>
-                Logout
+                icon={< UserOutlined />}>
+                {userName}
               </Dropdown.Button>
             </Col>
           </Row>
@@ -61,7 +71,7 @@ export default function allIndex({children}) {
           console.log(collapsed, type);
         }}
           style={{
-          minHeight: '100'
+          minHeight: '100vh'
         }}>
           <div className="logo"/>
           <Menu
@@ -69,7 +79,7 @@ export default function allIndex({children}) {
             mode="inline"
             defaultOpenKeys={['sub1','sub2']}
             style={{
-            height: '100%',
+            height: '100vh',
             borderRight: 0
           }}>
             <SubMenu key="sub1" icon={< UserOutlined />} title="Εργαζομενοι">

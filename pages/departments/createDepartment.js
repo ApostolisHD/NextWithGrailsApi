@@ -46,13 +46,7 @@ export default function createDepartment(data) {
   return (
     <LayoutCustom>
       <Divider>Δημιουργια Τμηματος</Divider>
-      <div
-        className="site-layout-background"
-        style={{
-        padding: 24,
-        paddingBottom: 300,
-        minHeight: 800
-      }}>
+      <div className="site-layout-background">
         <Row justify="center">
           <Col span={12} offset={6}>
             <Form
@@ -66,6 +60,7 @@ export default function createDepartment(data) {
               <Form.Item
                 name="name"
                 label="Όνομα τμήματος"
+                hasFeedback
                 rules={[
                 {
                   required: true,

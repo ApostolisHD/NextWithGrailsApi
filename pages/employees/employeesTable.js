@@ -7,7 +7,6 @@ import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   try {
-    
     let data = await axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
     return {
       props: {
@@ -59,13 +58,7 @@ export default function employeeTable(data) {
   return (
     <LayoutCustom>
       <Divider>Εργαζομενοι</Divider>
-      <div
-        className="site-layout-background"
-        style={{
-        padding: 24,
-        paddingBottom: 300,
-        minHeight: 700
-      }}>
+      <div className="site-layout-background">
         <Table dataSource={data.data} rowKey={record => record.employee_id}>
           <Column title="Τμημα" name="name" dataIndex="name"></Column>
           <Column title="Ονομα" name="first_name" dataIndex="first_name"></Column>
