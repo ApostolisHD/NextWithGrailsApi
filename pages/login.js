@@ -8,14 +8,14 @@ export default function login() {
   return (
     <Layout className="layout">
     <Header></Header>
-      <Divider>Login</Divider>
+      <Divider>Σύνδεση</Divider>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 700 }}>
       <Row justify="center">
         <Col xl>
           <Space direction="vertical" style={{
             width: 600
           }}>
-            <Card title="Login Form" style={{textAlign:'center'}}>
+            <Card title="Φόρμα Σύνδεσης" style={{textAlign:'center'}}>
               <LoginForm/>
             </Card>
           </Space>

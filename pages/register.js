@@ -4,18 +4,18 @@ import {Layout,Divider,Row,Col} from 'antd';
 import {Space, Card} from 'antd';
 const {Header, Footer} = Layout;
 
-export default function login() {
+export default function register() {
   return (
     <Layout className="layout">
     <Header></Header>
-      <Divider>Register</Divider>
+      <Divider>Εγγραφή</Divider>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 700 }}>
       <Row justify="center">
         <Col xl>
           <Space direction="vertical" style={{
             width: 600
           }}>
-            <Card title="Register Form" style={{textAlign:'center'}}>
+            <Card title="Φόρμα Εγγραφής" style={{textAlign:'center'}}>
              <RegisterForm/>
             </Card>
           </Space>

@@ -61,22 +61,6 @@ export default function login() {
       >
         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
       </Form.Item>
-      {/* <Form.Item
-        name="user_password"
-        label="Κώδικος χρήστη"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item> */}
       <Form.Item
         name="user_password"
         label="Κώδικος χρήστη"
@@ -94,9 +78,9 @@ export default function login() {
           placeholder="Password"/>
       </Form.Item>
       <Form.Item
-        name="user_password"
+        name="confirm"
         label="Επαλήθευση Κώδικου"
-        dependencies={['password']}
+        dependencies={['user_password']}
         hasFeedback
         rules={[
           {
@@ -105,7 +89,7 @@ export default function login() {
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue('user_password') === value) {
                 return Promise.resolve();
               }
 
