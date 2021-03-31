@@ -23,8 +23,9 @@ export default function employeeTable(data) {
     const res = await axios.delete(`http://localhost:8080/employee/${id}`,{withCredentials:true});
     if (res.data.status == 200) {
       router.replace("/employees/employeesTable");
-    } else if(res.data.status == 500)
+    } else if(res.data.status == 500){
       openNotification();
+    }
     };
 
   const openNotification = () => {

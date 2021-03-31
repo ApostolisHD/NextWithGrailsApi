@@ -22,10 +22,10 @@ export default function departmentTable(data) {
     const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
     if (vertification.data.status == 200) 
       router.replace("/departments/departmentsTable");
-    else (vertification.data.status == 500) 
+    else if (vertification.data.status == 500) {
       openNotification();
     }
-  ;
+    };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
