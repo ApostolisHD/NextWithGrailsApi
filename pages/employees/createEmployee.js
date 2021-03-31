@@ -143,7 +143,7 @@ export default function createEmployee(data) {
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                      <DatePicker format='DD/MM/YYYY'/>
+                      <DatePicker format="DD/MM/YYYY"/>
                   </Form.Item>
                 </Col>
               </Row>

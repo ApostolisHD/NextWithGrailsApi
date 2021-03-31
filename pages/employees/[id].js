@@ -1,12 +1,10 @@
-import {useState} from 'react';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import 'moment/locale/el';
-import locale from 'antd/lib/locale/el_GR';
 import axios from 'axios';
-import {useRouter} from 'next/router'
+import {useRouter} from 'next/router';
 import LayoutCustom from '../../components/layout';
-import {Divider,notification,Form,Input,Button,Select,Row,DatePicker,ConfigProvider,Space,Col,message} from 'antd';
+import {Divider,notification,Form,Input,Button,Select,Row,DatePicker,Space,Col,message} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 
 const {Option} = Select;
@@ -25,16 +23,15 @@ export async function getServerSideProps(ctx) {
 
 export default function employeeEdit(data) {
   const router = useRouter();
-  const [dateofbirthReg,setdateofBirthReg] = useState();
 
   async function onFinish(values) {
     console.log(values)
     const vertification = await axios.put(`http://localhost:8080/employee/${data.data.employee_id}`, {
-      first_name: values.first_name,
-      last_name: values.last_name,
+      first_name: values.firstName,
+      last_name: values.lastName,
       afm: values.afm,
-      date_of_birth: dateofbirthReg,
-      id_dep: values.id_dep
+      date_of_birth: values.dateOfBirth,
+      id_dep: values.departmentId
     }, {withCredentials: true});
     if (vertification.data.status == 200) {
       openMessage();
@@ -85,10 +82,16 @@ export default function employeeEdit(data) {
               layout="vertical"
               name="normal_login"
               className="login-form"
-              initialValues={data.data}
+              initialValues={{
+                    firstName: data.data.first_name,
+                    lastName: data.data.last_name,
+                    afm: data.data.afm,
+                    dateOfBirth : moment.utc(data.data.date_of_birth, 'DD/MM/YYYY'),
+                    departmentId: data.data.id_dep
+                    }}
               onFinish={onFinish}>
               <Form.Item
-                name="first_name"
+                name="firstName"
                 label="Όνομα εργαζομένου"
                 rules={[
                 {
@@ -106,7 +109,7 @@ export default function employeeEdit(data) {
                   placeholder="Ονομα εργαζομενου"/>
               </Form.Item>
               <Form.Item
-                name="last_name"
+                name="lastName"
                 label="Επώνυμο εργαζομένου"
                 rules={[
                 {
@@ -146,30 +149,25 @@ export default function employeeEdit(data) {
               <Row justify="center">
                 <Col>
                   <Form.Item
-                    name="date_of_birth"
+                    name="dateOfBirth"
                     label="Ημερομηνία γέννησης"
                     rules={[{
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
                   ]}>
-                    <ConfigProvider locale={locale}>
-                      <DatePicker
-                        defaultValue={moment(data.data.date_of_birth, 'DD/MM/YYYY')}
-                        format='DD/MM/YYYY'
-                        onChange={e => setdateofBirthReg(e.format('DD/MM/YYYY'))}/>
-                    </ConfigProvider>
+                      <DatePicker format='DD/MM/YYYY'/>
                   </Form.Item>
                 </Col>
               </Row>
               <Row justify="center">
                 <Col>
                   <Form.Item
-                    name="id_dep"
+                    name="departmentId"
                     label="Τμημα εργαζομένου"
                     rules={[{
                       required: true,
-                      message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
+                      message: 'Παρακαλω εισαγετε το τμήμα του εργαζομενου!'
                     }
                   ]}>
                     <Select style={{
