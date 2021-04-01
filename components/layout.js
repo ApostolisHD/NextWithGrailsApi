@@ -20,7 +20,12 @@ export default function allIndex({children}) {
   
   async function showUserName () {
     const vertification = await axios.get(`http://localhost:8080/authentication/userName`,{withCredentials: true});
-    setUserName(vertification.data.userName)
+    console.log(vertification)
+    if (vertification.data.status==200) {
+      setUserName(vertification.data.userName);    
+    }else if(vertification.data.status==401) {
+      router.push('/');
+    }
     };
 
   useEffect(()=>{

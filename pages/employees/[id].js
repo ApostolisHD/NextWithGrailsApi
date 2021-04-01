@@ -37,7 +37,7 @@ export default function employeeEdit(data) {
 
   async function onFinish(values) {
     console.log(values)
-    const vertification = await axios.put(`http://localhost:8080/employee/${data.data.employee_id}`, {
+    const vertification = await axios.put(`http://localhost:8080/employee/${data.data.employee.employee_id}`, {
       first_name: values.firstName,
       last_name: values.lastName,
       afm: values.afm,
@@ -45,9 +45,8 @@ export default function employeeEdit(data) {
       id_dep: values.departmentId
     }, {withCredentials: true});
     if (vertification.data.status == 200) {
-      openMessage();
       router.back();
-    } else if (vertification.data.status == 500) {
+    } else if (vertification.data.status == 400) {
       openNotification();
     }
   };
@@ -88,11 +87,11 @@ export default function employeeEdit(data) {
               name="normal_login"
               className="login-form"
               initialValues={{
-                    firstName: data.data.first_name,
-                    lastName: data.data.last_name,
-                    afm: data.data.afm,
-                    dateOfBirth : moment.utc(data.data.date_of_birth, 'DD/MM/YYYY'),
-                    departmentId: data.data.id_dep
+                    firstName: data.data.employee.first_name,
+                    lastName: data.data.employee.last_name,
+                    afm: data.data.employee.afm,
+                    dateOfBirth : moment.utc(data.data.employee.date_of_birth, 'DD/MM/YYYY'),
+                    departmentId: data.data.employee.id_dep
                     }}
               onFinish={onFinish}>
               <Form.Item

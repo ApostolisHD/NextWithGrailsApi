@@ -31,9 +31,9 @@ export default function employeeTable(data) {
 
   const deleteEmployee = async(id) => {
     const res = await axios.delete(`http://localhost:8080/employee/${id}`,{withCredentials:true});
-    if (res.data.status == 200) {
+    if (res.data.status == 202) {
       router.replace("/employees/employeesTable");
-    } else if(res.data.status == 500){
+    } else if(res.data.status == 400){
       openNotification();
     }
     };

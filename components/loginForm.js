@@ -12,7 +12,7 @@ export default function login() {
     console.log(vertification)
     if (vertification.data.status==200) {
       router.push('/employees/employeesTable');
-    }else if(vertification.data.status==500) {
+    }else if(vertification.data.status==401) {
       openNotification();
     }  
   }

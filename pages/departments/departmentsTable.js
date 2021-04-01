@@ -27,12 +27,13 @@ export async function getServerSideProps(ctx) {
 };
 
 export default function departmentTable(data) {
+  console.log(data)
   const router = useRouter();
   const deleteDepartment = async(id) => {
     const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
-    if (vertification.data.status == 200) 
+    if (vertification.data.status == 202) 
       router.replace("/departments/departmentsTable");
-    else if (vertification.data.status == 500) {
+    else if (vertification.data.status == 400) {
       openNotification();
     }
     };

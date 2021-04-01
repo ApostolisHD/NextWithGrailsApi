@@ -10,9 +10,9 @@ export default function login() {
   async function handleLogin (values) {
     const vertification = await axios.post(`http://localhost:8080/user`,{user_name:values.user_name, user_password:values.user_password},{withCredentials: true}); 
     console.log(vertification)
-    if (vertification.data.status==200) {
+    if (vertification.data.status==201) {
       router.push('/employees/employeesTable');
-    }else if(vertification.data.status==500) {
+    }else if(vertification.data.status==400) {
       openNotification();
     }  
   };

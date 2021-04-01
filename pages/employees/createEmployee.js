@@ -38,10 +38,10 @@ export default function createEmployee(data) {
       date_of_birth: values.date_of_birth,
       id_dep: values.id_dep
     },{withCredentials:true});
-    if (vertification.data.status == 200) {
+    if (vertification.data.status == 201) {
         openMessage();
         router.replace("/employees/employeesTable");
-    } else if(vertification.data.status == 500){
+    } else if(vertification.data.status == 400){
       openNotification();
     }
     };

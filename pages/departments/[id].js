@@ -7,11 +7,10 @@ import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   try {
-    let data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    let data = await axios.get(`http://localhost:8080/department/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
     return {
       props: {
-        data: data.data,
-        depData: depData.data
+        data: data.data
       }
     }
   } catch (error) {
@@ -25,17 +24,18 @@ export async function getServerSideProps(ctx) {
       }
     }
   }
-};
+}
+
 
 export default function employeeEdit(data) {
   const router = useRouter();
   async function onFinish(values) {
-    const vertification = await axios.put(`http://localhost:8080/department/${data.data.department_id}`, {name: values.name}, {withCredentials: true});
+    const vertification = await axios.put(`http://localhost:8080/department/${data.data.department.department_id}`, {name: values.name}, {withCredentials: true});
     if (vertification.data.status == 200) {
-      openMessage();
-      router.back()
-    } else (vertification.data.status == 500)
+      router.back();
+    } else if (vertification.data.status == 400){
       openNotification();
+    }
     };
 
   const openNotification = () => {
@@ -73,7 +73,7 @@ export default function employeeEdit(data) {
               layout="vertical"
               name="normal_login"
               className="login-form"
-              initialValues={data.data}
+              initialValues={data.data.department}
               onFinish={onFinish}>
               <Form.Item
                 name="name"
