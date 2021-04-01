@@ -6,7 +6,6 @@ import {BankOutlined} from '@ant-design/icons';
 import LayoutCustom from '../../components/layout';
 
 export default function createDepartment(data) {
-  console.log(data.data)
   const router = useRouter();
 
   async function onFinish(values) {

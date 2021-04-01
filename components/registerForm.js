@@ -7,9 +7,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 export default function login() {
   const router = useRouter();
 
-  async function handleLogin (values) {
+  async function handleRegister (values) {
     const vertification = await axios.post(`http://localhost:8080/user`,{user_name:values.user_name, user_password:values.user_password},{withCredentials: true}); 
-    console.log(vertification)
     if (vertification.data.status==201) {
       router.push('/employees/employeesTable');
     }else if(vertification.data.status==400) {
@@ -42,7 +41,7 @@ export default function login() {
     <Col span={24} offset={6}>
     <Form
       layout="vertical"
-      onFinish={handleLogin}
+      onFinish={handleRegister}
       name="normal_login"
       className="login-form"
       initialValues={{

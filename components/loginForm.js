@@ -9,7 +9,6 @@ export default function login() {
 
   async function handleLogin (values) {
     const vertification = await axios.post(`http://localhost:8080/authentication`,{user_name:values.user_name, user_password:values.user_password},{withCredentials: true}); 
-    console.log(vertification)
     if (vertification.data.status==200) {
       router.push('/employees/employeesTable');
     }else if(vertification.data.status==401) {

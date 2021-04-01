@@ -24,9 +24,6 @@ export async function getServerSideProps(ctx) {
       redirect: {
         destination: '/',
         permanent: false,
-      },
-      props: {
-        data: null
       }
     }
   }
@@ -36,7 +33,6 @@ export default function employeeEdit(data) {
   const router = useRouter();
 
   async function onFinish(values) {
-    console.log(values)
     const vertification = await axios.put(`http://localhost:8080/employee/${data.data.employee.employee_id}`, {
       first_name: values.firstName,
       last_name: values.lastName,

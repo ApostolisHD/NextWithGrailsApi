@@ -27,7 +27,6 @@ export async function getServerSideProps(ctx) {
 };
 
 export default function departmentTable(data) {
-  console.log(data)
   const router = useRouter();
   const deleteDepartment = async(id) => {
     const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
