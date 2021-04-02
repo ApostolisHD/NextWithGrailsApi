@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import EmployeeTable from '../../components/employeeTable'
+import EmployeeTable from '../../components/table'
 
 export async function getServerSideProps(ctx) {
   try {

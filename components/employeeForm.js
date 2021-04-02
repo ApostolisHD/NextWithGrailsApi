@@ -22,6 +22,7 @@ import {UserOutlined} from '@ant-design/icons';
 const {Option} = Select;
 
 export default function employeeForm({data}) {
+console.log(data)
   const router = useRouter();
 
   async function onFinishUpdate(values) {
@@ -212,6 +213,7 @@ export default function employeeForm({data}) {
                         }}>
                           {data
                             .depData
+                            .department
                             .map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
                         </Select>
                       : <Select
@@ -220,8 +222,9 @@ export default function employeeForm({data}) {
                         width: 400
                       }}>
                         {data
-                          .data
-                          .map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
+                            .data
+                            .department
+                            .map((item) => <Option key={item.department_id} value={item.department_id}>{item.name}</Option>)}
                       </Select>}
                   </Form.Item>
                 </Col>
