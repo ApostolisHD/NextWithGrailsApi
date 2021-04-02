@@ -7,10 +7,10 @@ import LayoutCustom from '../../components/layout';
 
 export async function getServerSideProps(ctx) {
   try {
-    let data = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    let data = await axios.get(`http://localhost:8080/employee`,{headers:{cookie: ctx.req.headers.cookie}},{withCredentials:true});
     return {
       props: {
-        data: data.data,
+        data: data.data
       }
     }
   } catch (error) {
@@ -26,13 +26,14 @@ export async function getServerSideProps(ctx) {
   }
 };
 
-export default function departmentTable(data) {
+export default function employeeTable(data) {
   const router = useRouter();
-  const deleteDepartment = async(id) => {
-    const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
-    if (vertification.data.status == 202) 
-      router.replace("/departments/departmentsTable");
-    else if (vertification.data.status == 400) {
+
+  const deleteEmployee = async(id) => {
+    const res = await axios.delete(`http://localhost:8080/employee/${id}`,{withCredentials:true});
+    if (res.data.status == 202) {
+      router.replace("/employees");
+    } else if(res.data.status == 400){
       openNotification();
     }
     };
@@ -46,7 +47,7 @@ export default function departmentTable(data) {
     );
     notification.open({
       message: 'Προσοχή!',
-      description: 'Δεν μπορεις να διαγραψεις αυτο το τμημα. Γιατι εχει εργαζομενους!',
+      description: 'Κατι πηγε στραβα δοκιμαστε ξανα!',
       duration: 0,
       btn,
       key,
@@ -56,28 +57,35 @@ export default function departmentTable(data) {
 
   return (
     <LayoutCustom>
-      <Divider>Τμηματα</Divider>
+      <Divider>Εργαζομενοι</Divider>
       <div className="site-layout-background">
-        <Table dataSource={data.data} rowKey={record => record.department_id}>
+        <Table dataSource={data.data} rowKey={record => record.employee_id}>
           <Column title="Τμημα" name="name" dataIndex="name"></Column>
+          <Column title="Ονομα" name="first_name" dataIndex="first_name"></Column>
+          <Column title="Επωνυμο" name="last_name" dataIndex="last_name"></Column>
+          <Column title="ΑΦΜ" name="afm" dataIndex="afm"></Column>
+          <Column
+            title="Ημερομηνια Γεννησης"
+            name="date_of_birth"
+            dataIndex="date_of_birth"></Column>
           <Column
             title="Διαχειρηση"
-            key="department_id"
+            key="employee_id"
             render={(record) => (
             <Space size="middle">
               <Button
                 type="primary"
                 htmlType="submit"
                 onClick={() => router.push({
-                pathname: `/departments/[id]`,
+                pathname: `/employees/edit/[id]`,
                 query: {
-                  id: record.department_id
+                  id: record.employee_id
                 }
               })}>Επεξεργασια</Button>
               <Popconfirm
-                title="Ειστε σίγουρος οτι θέλετε να διαγράψετε το τμήμα?"
-                onConfirm={() => deleteDepartment(record.department_id)}
-                onCancel={() => router.replace("/departments/departmentsTable")}
+                title="Ειστε σίγουρος οτι θέλετε να διαγράψετε τον εργαζομενο?"
+                onConfirm={() => deleteEmployee(record.employee_id)}
+                onCancel={() => router.replace("/employees")}
                 okText="Ναι"
                 cancelText="Οχι">
                 <Button type="primary" danger>Διαγραφη</Button>

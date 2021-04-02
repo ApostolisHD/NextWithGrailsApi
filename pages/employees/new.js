@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {useRouter} from 'next/router';
-import {Divider,Form,Input,Button,Select,Row,DatePicker,Col,notification,message,Space} from 'antd';
+import {Divider,Form,Input,Button,Select,Row,DatePicker,Col,notification,message} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import LayoutCustom from '../../components/layout';
 
@@ -40,7 +40,7 @@ export default function createEmployee(data) {
     },{withCredentials:true});
     if (vertification.data.status == 201) {
         openMessage();
-        router.replace("/employees/employeesTable");
+        router.replace("/employees");
     } else if(vertification.data.status == 400){
       openNotification();
     }
@@ -168,7 +168,6 @@ export default function createEmployee(data) {
                     }
                   ]}>
                     <Select 
-                    // pre={< UserOutlined className = "site-form-item-icon" />}
                     placeholder="Τμήμα Εργαζομένου"
                     style={{
                       width: 400
@@ -181,22 +180,9 @@ export default function createEmployee(data) {
                 </Col>
               </Row>
               <Form.Item>
-                <Space
-                  size='large'
-                  style={{
-                  marginInlineStart: '20%'
-                }}>
-                  <Button type="primary" htmlType="submit" className="login-form-button">
-                    Αποθηκευση
-                  </Button>
-                  <Button
-                    type="primary"
-                    danger
-                    className="login-form-button"
-                    onClick={() => router.back()}>
-                    Ακυρωση
-                  </Button>
-                </Space>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                  Δημιουργια
+                </Button>
               </Form.Item>
             </Form>
           </Col>

@@ -1,18 +1,18 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {useRouter} from 'next/router';
-import {Divider,Form,Input,Button,Row,Col,Space,notification,message} from 'antd';
-import {BankOutlined} from '@ant-design/icons';
-import LayoutCustom from '../../components/layout';
+import { useRouter } from 'next/router';
+import { Divider, Form, Input, Button, Row, Col, Space, notification, message } from 'antd';
+import { BankOutlined } from '@ant-design/icons';
+import LayoutCustom from '../../../components/layout';
 
 export async function getServerSideProps(ctx) {
   try {
-    let data = await axios.get(`http://localhost:8080/department/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
+    let data = await axios.get(`http://localhost:8080/department/${ctx.params.id}`, { headers: { cookie: ctx.req.headers.cookie } }, { withCredentials: true });
     return {
       props: {
         data: data.data
       }
-    }
+    };
   } catch (error) {
     return {
       redirect: {
@@ -22,21 +22,20 @@ export async function getServerSideProps(ctx) {
       props: {
         data: null
       }
-    }
+    };
   }
-}
-
-
+};
 export default function employeeEdit(data) {
   const router = useRouter();
   async function onFinish(values) {
-    const vertification = await axios.put(`http://localhost:8080/department/${data.data.department.department_id}`, {name: values.name}, {withCredentials: true});
+    const vertification = await axios.put(`http://localhost:8080/department/${data.data.department.department_id}`, { name: values.name }, { withCredentials: true });
     if (vertification.data.status == 200) {
+      openMessage();
       router.back();
-    } else if (vertification.data.status == 400){
+    } else if (vertification.data.status == 400) {
       openNotification();
     }
-    };
+  };
 
   const openNotification = () => {
     const key = `open${Date.now()}`;
@@ -48,7 +47,7 @@ export default function employeeEdit(data) {
     notification.open({
       message: 'Προσοχη!',
       description: 'Το όνομα του τμήματος που χρησιμοποιήσατε υπάρχει ήδη. Παρακαλώ εισάγετε νεο όνο' +
-          'μα τμηματος',
+        'μα τμηματος',
       duration: 0,
       btn,
       key,
@@ -58,9 +57,9 @@ export default function employeeEdit(data) {
 
   const key = 'updatable';
   const openMessage = () => {
-    message.loading({content: 'Επεξεργασια...', key});
+    message.loading({ content: 'Επεξεργασια...', key });
     setTimeout(() => {
-      message.success({content: 'Ετοιμο!', key, duration: 10});
+      message.success({ content: 'Ετοιμο!', key, duration: 10 });
     }, 1000);
   };
   return (
@@ -80,27 +79,27 @@ export default function employeeEdit(data) {
                 label="Όνομα τμήματος"
                 hasFeedback
                 rules={[
-                {
-                  required: true,
-                  message: 'Παρακαλω εισαγετε το ονομα του τμηματος!'
-                }, {
-                  max: 9,
-                  message: 'Το τμήμα πρέπει να έχει 9 ψηφία'
-                }, {
-                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
-                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
-                }
-              ]}>
+                  {
+                    required: true,
+                    message: 'Παρακαλω εισαγετε το ονομα του τμηματος!'
+                  }, {
+                    max: 9,
+                    message: 'Το τμήμα πρέπει να έχει 9 ψηφία'
+                  }, {
+                    pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                    message: "Παρακαλώ εισάγεται μόνο γράμματα"
+                  }
+                ]}>
                 <Input
-                  prefix={< BankOutlined className = "site-form-item-icon" />}
-                  placeholder="Ονομα Τμηματος"/>
+                  prefix={< BankOutlined className="site-form-item-icon" />}
+                  placeholder="Ονομα Τμηματος" />
               </Form.Item>
               <Form.Item>
                 <Space
                   size='large'
                   style={{
-                  marginInlineStart: '20%'
-                }}>
+                    marginInlineStart: '20%'
+                  }}>
                   <Button type="primary" htmlType="submit" className="login-form-button">
                     Αποθηκευση
                   </Button>

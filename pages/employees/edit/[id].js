@@ -2,21 +2,30 @@ import 'antd/dist/antd.css';
 import moment from 'moment';
 import 'moment/locale/el';
 import axios from 'axios';
-import {useRouter} from 'next/router';
-import LayoutCustom from '../../components/layout';
-import {Divider,notification,Form,Input,Button,Select,Row,DatePicker,Space,Col,message} from 'antd';
-import {UserOutlined} from '@ant-design/icons';
+import { useRouter } from 'next/router';
+import LayoutCustom from '../../../components/layout';
+import { Divider, notification, Form, Input, Button, Select, Row, DatePicker, Space, Col, message } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
-const {Option} = Select;
+const { Option } = Select;
 
 export async function getServerSideProps(ctx) {
   try {
-    let data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
-    let depData = await axios.get(`http://localhost:8080/department`, {headers:{cookie: ctx.req.headers.cookie}},{withCredentials: true});
-    return {
-      props: {
-        data: data.data,
-        depData: depData.data
+    let data = await axios.get(`http://localhost:8080/employee/${ctx.params.id}`, { headers: { cookie: ctx.req.headers.cookie } }, { withCredentials: true });
+    let depData = await axios.get(`http://localhost:8080/department`, { headers: { cookie: ctx.req.headers.cookie } }, { withCredentials: true });
+    if (data.data.status === 200) {
+      return {
+        props: {
+          data: data.data,
+          depData: depData.data
+        }
+      }
+    } else {
+      return {
+        redirect: {
+          destination: '/employees/new',
+          permanent: false,
+        }
       }
     }
   } catch (error) {
@@ -39,7 +48,7 @@ export default function employeeEdit(data) {
       afm: values.afm,
       date_of_birth: values.dateOfBirth,
       id_dep: values.departmentId
-    }, {withCredentials: true});
+    }, { withCredentials: true });
     if (vertification.data.status == 200) {
       router.back();
     } else if (vertification.data.status == 400) {
@@ -66,9 +75,9 @@ export default function employeeEdit(data) {
 
   const key = 'updatable';
   const openMessage = () => {
-    message.loading({content: 'Επεξεργασια...', key});
+    message.loading({ content: 'Επεξεργασια...', key });
     setTimeout(() => {
-      message.success({content: 'Ετοιμο!', key, duration: 10});
+      message.success({ content: 'Ετοιμο!', key, duration: 10 });
     }, 1000);
   };
 
@@ -83,71 +92,71 @@ export default function employeeEdit(data) {
               name="normal_login"
               className="login-form"
               initialValues={{
-                    firstName: data.data.employee.first_name,
-                    lastName: data.data.employee.last_name,
-                    afm: data.data.employee.afm,
-                    dateOfBirth : moment.utc(data.data.employee.date_of_birth, 'DD/MM/YYYY'),
-                    departmentId: data.data.employee.id_dep
-                    }}
+                firstName: data.data.employee ? data.data.employee.first_name:null,
+                lastName: data.data.employee ? data.data.employee.last_name:null,
+                afm: data.data.employee ? data.data.employee.afm:null,
+                dateOfBirth: data.data.employee ? moment.utc(data.data.employee.date_of_birth, 'DD/MM/YYYY'):null,
+                departmentId: data.data.employee ? data.data.employee.id_dep:null
+              }}
               onFinish={onFinish}>
               <Form.Item
                 name="firstName"
                 label="Όνομα εργαζομένου"
                 hasFeedback
                 rules={[
-                {
-                  min: 3,
-                  max: 50,
-                  required: true,
-                  message: 'Παρακαλω εισαγετε το ονομα του εργαζομενου!'
-                }, {
-                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
-                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
-                }
-              ]}>
+                  {
+                    min: 3,
+                    max: 50,
+                    required: true,
+                    message: 'Παρακαλω εισαγετε το ονομα του εργαζομενου!'
+                  }, {
+                    pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                    message: "Παρακαλώ εισάγεται μόνο γράμματα"
+                  }
+                ]}>
                 <Input
-                  prefix={< UserOutlined className = "site-form-item-icon" />}
-                  placeholder="Ονομα εργαζομενου"/>
+                  prefix={< UserOutlined className="site-form-item-icon" />}
+                  placeholder="Ονομα εργαζομενου" />
               </Form.Item>
               <Form.Item
                 name="lastName"
                 label="Επώνυμο εργαζομένου"
                 hasFeedback
                 rules={[
-                {
-                  min: 3,
-                  max: 50,
-                  required: true,
-                  message: 'Παρακαλω εισαγετε το επωνυμο του εργαζομενου!'
-                }, {
-                  pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
-                  message: "Παρακαλώ εισάγεται μόνο γράμματα"
-                }
-              ]}>
+                  {
+                    min: 3,
+                    max: 50,
+                    required: true,
+                    message: 'Παρακαλω εισαγετε το επωνυμο του εργαζομενου!'
+                  }, {
+                    pattern: "^[α-ωΑ-Ωa-zA-Z]+$",
+                    message: "Παρακαλώ εισάγεται μόνο γράμματα"
+                  }
+                ]}>
                 <Input
-                  prefix={< UserOutlined className = "site-form-item-icon" />}
-                  placeholder="Επωνυμο εργαζομενου"/>
+                  prefix={< UserOutlined className="site-form-item-icon" />}
+                  placeholder="Επωνυμο εργαζομενου" />
               </Form.Item>
               <Form.Item
                 name="afm"
                 label="ΑΦΜ εργαζομένου"
                 hasFeedback
                 rules={[
-                {
-                  required: true,
-                  message: 'Παρακαλω εισαγετε το ΑΦΜ του εργαζομενου!'
-                }, {
-                  min: 9,
-                  max: 9,
-                  message: 'Το ΑΦΜ πρέπει να έχει 9 ψηφία'
-                }, {
-                  pattern: "^[0-9]*$",
-                  message: "Παρακαλώ εισάγεται μόνο αριθμούς"
-                }
-              ]}>
+                  {
+                    required: true,
+                    message: 'Παρακαλω εισαγετε το ΑΦΜ του εργαζομενου!'
+                  }, {
+                    min: 9,
+                    max: 9,
+                    message: 'Το ΑΦΜ πρέπει να έχει 9 ψηφία'
+                  }, {
+                    pattern: "^[0-9]*$",
+                    message: "Παρακαλώ εισάγεται μόνο αριθμούς"
+                  }
+                ]}>
                 <Input
-                  prefix={< UserOutlined className = "site-form-item-icon" />}
-                  placeholder="ΑΦΜ"/>
+                  prefix={< UserOutlined className="site-form-item-icon" />}
+                  placeholder="ΑΦΜ" />
               </Form.Item>
               <Row justify="center">
                 <Col>
@@ -159,8 +168,8 @@ export default function employeeEdit(data) {
                       required: true,
                       message: 'Παρακαλω εισαγετε την ημερομηνια γεννησης του εργαζομενου!'
                     }
-                  ]}>
-                      <DatePicker format='DD/MM/YYYY'/>
+                    ]}>
+                    <DatePicker format='DD/MM/YYYY' />
                   </Form.Item>
                 </Col>
               </Row>
@@ -174,7 +183,7 @@ export default function employeeEdit(data) {
                       required: true,
                       message: 'Παρακαλω εισαγετε το τμήμα του εργαζομενου!'
                     }
-                  ]}>
+                    ]}>
                     <Select style={{
                       width: 400
                     }}>
@@ -189,8 +198,8 @@ export default function employeeEdit(data) {
                 <Space
                   size='large'
                   style={{
-                  marginInlineStart: '20%'
-                }}>
+                    marginInlineStart: '20%'
+                  }}>
                   <Button type="primary" htmlType="submit" className="login-form-button">
                     Αποθηκευση
                   </Button>

@@ -12,7 +12,7 @@ export default function createDepartment(data) {
     const vertification = await axios.post(`http://localhost:8080/department`, {name: values.name},{withCredentials: true});
     if (vertification.data.status == 201) {
       openMessage();
-      router.replace("/departments/departmentsTable");
+      router.replace("/departments");
     } else if (vertification.data.status == 400){
       openNotification();
     }
