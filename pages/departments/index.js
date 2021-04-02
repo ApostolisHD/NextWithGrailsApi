@@ -1,9 +1,6 @@
-import Column from 'antd/lib/table/Column';
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import {useRouter} from 'next/router';
-import {Divider,Table,Space,Button,notification,Popconfirm} from 'antd';
-import LayoutCustom from '../../components/layout';
+import DepartmentTable from '../../components/departmentTable'
 
 export async function getServerSideProps(ctx) {
   try {
@@ -27,65 +24,8 @@ export async function getServerSideProps(ctx) {
 };
 
 export default function departmentTable(data) {
-  const router = useRouter();
-  const deleteDepartment = async(id) => {
-    const vertification = await axios.delete(`http://localhost:8080/department/${id}`,{withCredentials: true});
-    if (vertification.data.status == 202) 
-      router.replace("/departments");
-    else if (vertification.data.status == 400) {
-      openNotification();
-    }
-    };
-
-  const openNotification = () => {
-    const key = `open${Date.now()}`;
-    const btn = (
-      <Button type="primary" size="small" onClick={() => notification.close(key)}>
-        Κατάλαβα!
-      </Button>
-    );
-    notification.open({
-      message: 'Προσοχή!',
-      description: 'Δεν μπορεις να διαγραψεις αυτο το τμημα. Γιατι εχει εργαζομενους!',
-      duration: 0,
-      btn,
-      key,
-      onClose: close
-    });
-  };
 
   return (
-    <LayoutCustom>
-      <Divider>Τμηματα</Divider>
-      <div className="site-layout-background">
-        <Table dataSource={data.data} rowKey={record => record.department_id}>
-          <Column title="Τμημα" name="name" dataIndex="name"></Column>
-          <Column
-            title="Διαχειρηση"
-            key="department_id"
-            render={(record) => (
-            <Space size="middle">
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => router.push({
-                pathname: `/departments/edit/[id]`,
-                query: {
-                  id: record.department_id
-                }
-              })}>Επεξεργασια</Button>
-              <Popconfirm
-                title="Ειστε σίγουρος οτι θέλετε να διαγράψετε το τμήμα?"
-                onConfirm={() => deleteDepartment(record.department_id)}
-                onCancel={() => router.replace("/departments")}
-                okText="Ναι"
-                cancelText="Οχι">
-                <Button type="primary" danger>Διαγραφη</Button>
-              </Popconfirm>
-            </Space>
-          )}/>
-        </Table>
-      </div>
-    </LayoutCustom>
+      <DepartmentTable data={data}/>
   );
 }
